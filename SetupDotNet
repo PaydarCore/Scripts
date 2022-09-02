@@ -1,0 +1,91 @@
+function CopyDevContainer() 
+{
+    if [ -d "/$Organization/$Repository/$Project/.devcontainer" ]; then
+        sudo rm -rf "/$Organization/$Repository/$Project/.devcontainer"
+    fi
+
+    sudo mkdir /$Organization/$Repository/$Project/.devcontainer
+    sudo chmod -R 777 /$Organization/$Repository/$Project/.devcontainer
+    envsubst < /PaydarCore/Infra/DotNet/Dev/DevContainer > "/$Organization/$Repository/$Project/.devcontainer/devcontainer.json"
+}
+
+function CopyVSCodeFiles() 
+{
+    if [ -d "/$Organization/$Repository/$Project/.vscode" ]; then
+        sudo rm -rf "/$Organization/$Repository/$Project/.vscode"
+    fi
+    sudo mkdir /$Organization/$Repository/$Project/.vscode
+    sudo chmod -R 777 /$Organization/$Repository/$Project/.vscode
+
+    envsubst < /PaydarCore/Infra/DotNet/Dev/Launch > /$Organization/$Repository/$Project/.vscode/launch.json
+    envsubst < /PaydarCore/Infra/DotNet/Dev/Tasks > /$Organization/$Repository/$Project/.vscode/tasks.json
+}
+
+function BuildConfigMappings()
+{
+    if [ -f /$Organization/$Repository/Common/ConnectionStrings.json ]; then
+        export volumes="$volumes\n            - *$Organization*Repository*Common*ConnectionStrings.json:*Api*ConnectionStrings.json"
+    fi
+    if [ -f /$Organization/$Repository/Common/Settings.json ]; then
+        export volumes="$volumes\n            - *$Organization*Repository*Common*Settings.json:*Api*Settings.json"
+    fi
+    if [ -f /$Organization/$Repository/$Repository/SettingsOverride.json ]; then
+        export volumes="$volumes\n            - *$Organization*Repository*$Repository*SettingsOverride.json:*Api*SettingsOverride.json"
+    fi
+}
+
+function BuildDependenciesMappingsForApi() 
+{
+    if [ ! -f /$Organization/$Repository/Common/ApiDependencies ]; then
+        return;
+    fi
+    while read Dependency; do
+        Org=$(echo $Dependency | cut -d'/' -f1)
+        Repo=$(echo $Dependency | cut -d'/' -f2)
+        if [ ! -d /$Org/$Repo/Models ]; then
+            Warning "Wrong dependency: $Dependency"
+            continue;
+        fi
+        export volumes="$volumes\n            - *$Org*$Repo:*$Org*$Repo"
+        export volumes="$volumes\n            - *$Org*$Repo*Models:*Api*$Repo*Models"
+        export volumes="$volumes\n            - *$Org*$Repo*DataAccess:*Api*$Repo*DataAccess"
+        export volumes="$volumes\n            - *$Org*$Repo*Business:*Api*$Repo*Business"
+    done <<< "$({ cat "/$Organization/$Repository/Common/ApiDependencies"; echo; })"
+}
+
+function BuildLocalizationMappings()
+{
+    while read Item; do
+        ReplacedItem="${Item//\//*}"
+        export volumes="$volumes\n            - $ReplacedItem:$ReplacedItem"
+    done <<< "$(find /PaydarReact /$Organization -type f -name 'Localization.json' 2>/dev/null | sort)"
+}
+
+function CreateApiContainer()
+{
+    ComposeFile=/Temp/$Organization/$Repository/$Project/DockerCompose.yml
+    mkdir -p $(dirname $ComposeFile)
+    envsubst < /PaydarCore/Infra/DotNet/Dev/DockerCompose.yml > $ComposeFile
+    sed -i "s/# - DependenciesPlaceholder/$volumes/g" $ComposeFile
+    sed -i "s/*/\//g" $ComposeFile
+    docker-compose -p "${Repository}_${Project}" -f $ComposeFile up --remove-orphans
+}
+
+function SetupDotNet() 
+{
+    Info "Setting up API"
+    CopyDevContainer
+    CopyVSCodeFiles
+
+    export volumes=""
+    BuildConfigMappings volumes
+    BuildDependenciesMappingsForApi volumes
+    BuildLocalizationMappings volumes
+    echo -e $volumes
+
+    # CreateGitHubAction DotNet
+
+    # CreateStorageContainer
+    SetupSql
+    CreateApiContainer "Dev"
+}

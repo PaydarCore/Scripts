@@ -1,0 +1,11 @@
+function SetupNext() 
+{
+    Info "Seting up site"
+    # LinkGitIgnore $PWD
+    # CreateGitHubAction Next
+    # DetermineTailwindConfigPath
+    ComposeFile=/Temp$ProjectPath/DockerCompose.yml
+    sudo mkdir -p $(dirname $ComposeFile)
+    envsubst < /PaydarCore/Infra/Next/Dev/DockerCompose.yml > $ComposeFile
+    sudo docker-compose -p "${Repository}_${Project}" -f $ComposeFile up --remove-orphans
+}

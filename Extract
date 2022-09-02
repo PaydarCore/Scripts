@@ -1,0 +1,12 @@
+function Extract()
+{
+    Divide
+
+    export Organization=$(echo $PWD | cut -d'/' -f2)
+    export Repository=$(echo $PWD | cut -d'/' -f3)
+    export Project=$(echo $PWD | cut -d'/' -f4)
+    export ProjectPath=$PWD
+    Success "Organization: $Organization"
+    Success "Repository: $Repository"
+    Success "Project: $Project"
+}

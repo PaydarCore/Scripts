@@ -1,0 +1,10 @@
+function GetHost()
+{
+    if [ ! -f $ProjectPath/Host ]; then
+        return;
+    fi
+
+    read Host < $ProjectPath/Host
+    export Host;
+    Info "Host is $Host"
+}

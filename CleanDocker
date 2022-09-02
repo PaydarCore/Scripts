@@ -1,0 +1,5 @@
+function CleanDocker() 
+{
+    Info 'Cleaning Docker, pruning images, networks, containers ...';
+    docker system prune --force 1>/dev/null
+}

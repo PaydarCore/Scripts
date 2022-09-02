@@ -1,0 +1,13 @@
+function SetupLocalDns() 
+{
+    if [[ $Host == "" ]]; then
+        return;
+    fi
+    
+    sudo chmod 777 /etc/hosts
+
+    Info "Setting up local DNS for $Host ...";
+    if ! grep -q " $Host" /etc/hosts; then
+        echo "127.0.0.1 $Host" >> /etc/hosts;
+    fi
+}

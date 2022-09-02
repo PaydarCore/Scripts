@@ -1,0 +1,12 @@
+#!/bin/bash
+
+function IsNext()
+{
+    if [[ $(basename $PWD) == *Site* ]]; then
+        return 0;
+    fi
+    if [ -d pages ]; then
+        return 0;
+    fi
+    return 1;
+}

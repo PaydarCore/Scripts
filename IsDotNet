@@ -1,0 +1,14 @@
+function IsDotNet()
+{
+    Csproj=$(find . -maxdepth 1 -name "*.csproj" | wc -l)
+    if  [[ $Csproj == 1 ]]; then
+        return 0;
+    fi
+    if [ -f Program.cs ] || [[ $(basename $PWD) == *Api* ]]; then
+        return 0;
+    fi
+    if [ -f Host ] && ( cat Host | grep api 1>/dev/null ); then
+        return 0;
+    fi
+    return 1;
+}

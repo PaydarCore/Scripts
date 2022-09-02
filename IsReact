@@ -1,0 +1,15 @@
+#!/bin/bash
+
+function IsReact()
+{
+    if [[ $(basename $PWD) == *Panel* ]]; then
+        return 0;
+    fi
+    if [[ $(basename $PWD) == *React* ]]; then
+        return 0;
+    fi
+    if [ -f Menu.jsx ]; then
+        return 0;
+    fi
+    return 1;
+}

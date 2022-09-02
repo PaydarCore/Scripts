@@ -1,0 +1,13 @@
+function CopyGitIgnore() 
+{
+    if [ ! -d /PaydarNode/$Repository/.git ]; then
+        Warning "/PaydarNode/$Repository is not a git repository"
+        return
+    fi
+    echo "" > /PaydarNode/$Repository/.git/info/exclude
+    Info "Writing all .gitignores from /PaydarCore/Infra/Ignore to /PaydarNode/$Repository/.git/info/exclude"
+    find /PaydarCore/Infra/Ignore -maxdepth 1 -type f | 
+    while read ignore; do
+        cat $ignore >> /PaydarNode/$Repository/.git/info/exclude
+    done
+}

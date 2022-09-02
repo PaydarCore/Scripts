@@ -1,0 +1,56 @@
+function CreateNonExistentFilesForReact()
+{
+    if [ ! -f .env ]; then
+        cp /PaydarCore/Infra/React/Dev/EnvTemplate .env
+    fi
+    if [ ! -f .env.production ]; then
+        touch .env.production
+    fi
+    if [ ! -f Menu.jsx ]; then
+        cp /PaydarCore/Infra/React/Dev/MenuTemplate Menu.jsx
+    fi
+    if [ ! -f Routes.jsx ]; then
+        cp /PaydarCore/Infra/React/Dev/RoutesTemplate Routes.jsx
+    fi
+    if [ ! -f HeaderActions.jsx ]; then
+        cp /PaydarCore/Infra/React/Dev/HeaderActionsTemplate HeaderActions.jsx
+    fi
+    sudo chmod -R 777 $PWD
+}
+
+function BuildDependenciesMappingsForReact() 
+{
+    if [ ! -f /$Organization/$Repository/$Project/Dependencies ]; then
+        return;
+    fi
+    while read Dependency; do
+        Org=$(echo $Dependency | cut -d'/' -f1)
+        Repo=$(echo $Dependency | cut -d'/' -f2)
+        if [[ $Repo == Common ]]; then
+            continue;
+        fi
+        export volumes="$volumes\n      - *$Org*$Repo:*$Org*$Repo"
+        if [[ $(basename $PWD) == *Admin* ]]; then
+            export volumes="$volumes\n      - *$Org*$Repo*Admin:*$Repository*$Project*src*$Repo"
+        fi
+    done <<< "$({ cat "/$Organization/$Repository/$Project/Dependencies"; echo; })"
+}
+
+function SetupReact()
+{
+    Info "React setup"
+    # CreateGitHubAction Next
+
+    export volumes=""
+    BuildDependenciesMappingsForReact
+    echo -e $volumes
+
+    CreateNonExistentFilesForReact
+
+    ComposePath=/Temp/$Organization/$Repository/$Project/DockerCompose.yml
+    sudo mkdir -p $(dirname $ComposePath)
+    envsubst < /PaydarCore/Infra/React/Dev/DockerCompose.yml > $ComposePath
+    sed -i "s/# Dependencies/$volumes/g" $ComposePath
+    sed -i "s/*/\//g" $ComposePath
+    docker-compose -p "${Repository}_${Project}" -f $ComposePath up --remove-orphans
+}
