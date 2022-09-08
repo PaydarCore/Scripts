@@ -50,7 +50,7 @@ function BuildLocalizationMappings()
     while read Item; do
         ReplacedItem="${Item//\//*}"
         export volumes="$volumes\n            - $ReplacedItem:$ReplacedItem"
-    done <<< "$(find /PaydarReact /$Organization -type f -name 'Localization.json' 2>/dev/null | sort)"
+    done <<< "$(find /PaydarCore /$Organization -type f -name 'Localization.json' 2>/dev/null | sort)"
 }
 
 function CreateApiContainer()
@@ -58,7 +58,7 @@ function CreateApiContainer()
     ComposeFile=/Temp/$Organization/$Repository/$Project/DockerCompose.yml
     mkdir -p $(dirname $ComposeFile)
     envsubst < /PaydarCore/Infra/DotNet/Dev/DockerCompose.yml > $ComposeFile
-    sed -i "s/# - DependenciesPlaceholder/$volumes/g" $ComposeFile
+    sed -i "s/# Dependencies/$volumes/g" $ComposeFile
     sed -i "s/*/\//g" $ComposeFile
     docker-compose -p "${Repository}_${Project}" -f $ComposeFile up --remove-orphans
 }
