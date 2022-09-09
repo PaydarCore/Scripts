@@ -9,6 +9,9 @@ function CreateNonExistentFilesForSite()
     if [ ! -f next.config.js ]; then
         touch next.config.js
     fi
+    if [ ! -f tailwind.config.js ]; then
+        cp /PaydarCore/Infra/Next/TailwindConfigTemplate tailwind.config.js
+    fi
     if [ ! -f .env ]; then
         touch .env
     fi
