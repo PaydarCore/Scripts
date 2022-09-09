@@ -1,9 +1,39 @@
+function CreateNonExistentFilesForSite()
+{
+    sudo mkdir -p Components
+    sudo mkdir -p pages
+    sudo mkdir -p public
+    sudo mkdir -p contents
+    sudo mkdir -p styles
+    sudo chmod -R 777 $PWD
+    if [ ! -f next.config.js ]; then
+        touch next.config.js
+    fi
+    if [ ! -f .env ]; then
+        touch .env
+    fi
+    if [ ! -f .env.production ]; then
+        touch .env.production
+    fi
+    if [ ! -f jsconfig.json ]; then
+        cp /PaydarCore/Infra/Next/JsConfigTemplate jsconfig.json
+    fi
+    if [ ! -f pages/index.js ]; then
+        cp /PaydarCore/Infra/Next/IndexTemplate pages/index.js
+    fi
+    if [ ! -f pages/_app.js ]; then
+        cp /PaydarCore/Infra/Next/AppTemplate pages/_app.js
+    fi
+    sudo chmod -R 777 $PWD
+}
+
 function SetupNext() 
 {
     Info "Seting up site"
     # LinkGitIgnore $PWD
     # CreateGitHubAction Next
     # DetermineTailwindConfigPath
+    CreateNonExistentFilesForSite
     ComposeFile=/Temp$ProjectPath/DockerCompose.yml
     sudo mkdir -p $(dirname $ComposeFile)
     envsubst < /PaydarCore/Infra/Next/Dev/DockerCompose.yml > $ComposeFile
