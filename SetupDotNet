@@ -31,7 +31,7 @@ function BuildDependenciesMappingsForApi()
     while read Dependency; do
         Org=$(echo $Dependency | cut -d'/' -f1)
         Repo=$(echo $Dependency | cut -d'/' -f2)
-        if [ ! -d /$Org/$Repo/Models ]; then
+        if [ ! -f /$Org/$Repo/Database.json ]; then
             Warning "Wrong dependency: $Dependency"
             continue;
         fi
