@@ -1,0 +1,11 @@
+function Start()
+{
+    export StartTime="$(date -u +%s.%N)"
+}
+
+function Stop()
+{
+    export EndTime="$(date -u +%s.%N)"
+    export Elapsed="$(bc <<<"$EndTime-$StartTime")"
+    Error $Elapsed
+}
