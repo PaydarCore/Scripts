@@ -3,7 +3,7 @@ function CreateNonExistentFilesForSite()
     sudo mkdir -p Components
     sudo mkdir -p pages
     sudo mkdir -p public
-    sudo mkdir -p contents
+    # sudo mkdir -p contents
     sudo mkdir -p styles
     sudo chmod -R 777 $PWD
     if [ ! -f next.config.js ]; then
