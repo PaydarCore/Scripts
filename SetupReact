@@ -43,7 +43,7 @@ function SetupReact()
 
     export volumes=""
     BuildDependenciesMappingsForReact
-    echo -e $volumes
+    # echo -e $volumes
 
     CreateNonExistentFilesForReact
 

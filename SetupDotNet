@@ -72,7 +72,7 @@ function SetupDotNet()
     BuildConfigMappings volumes
     BuildDependenciesMappingsForApi volumes
     BuildLocalizationMappings volumes
-    echo -e $volumes
+    # echo -e $volumes
 
     # CreateGitHubAction DotNet
 
