@@ -1,11 +1,20 @@
 #!/bin/bash
 
-red=`tput setaf 1`
-green=`tput setaf 2`
-cyan=`tput setaf 6`
-magenta=`tput setaf 5`
-yellow=`tput setaf 3`
-reset=`tput sgr0`
+red=""
+green=""
+cyan=""
+magenta=""
+yellow=""
+reset=""
+
+if [[ -t 1 ]]; then
+    red=`tput setaf 1`
+    green=`tput setaf 2`
+    cyan=`tput setaf 6`
+    magenta=`tput setaf 5`
+    yellow=`tput setaf 3`
+    reset=`tput sgr0`
+fi
 
 function Success()
 {
