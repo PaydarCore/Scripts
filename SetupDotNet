@@ -1,3 +1,25 @@
+function CreateNonExistentFilesForApi()
+{
+    if [ ! -f Program.cs ]; then
+        echo "Application.Run();" > Program.cs
+    fi
+    if [ ! -f /$Organization/$Repository/Common/ConnectionStrings.json ]; then
+        echo "{"  > /$Organization/$Repository/Common/ConnectionStrings.json
+        echo "    \"Database\": \"Data Source=database;Initial Catalog=$Repository;user id=SA;password=Hjvj6DS8yvq25MOW_LRkV;Application Name=$Repository\"" >> /$Organization/$Repository/Common/ConnectionStrings.json
+        echo "}"  >> /$Organization/$Repository/Common/ConnectionStrings.json
+    fi
+    if [ ! -f /$Organization/$Repository/Common/Settings.json ]; then
+        echo "{ }"  > /$Organization/$Repository/Common/Settings.json
+    fi
+    if [ ! -f /$Organization/$Repository/Common/ModuleUsings.cs ]; then
+        touch /$Organization/$Repository/Common/ModuleUsings.cs
+    fi
+    if [ ! -f /$Organization/$Repository/Common/${Repository}Usings.cs ]; then
+        touch /$Organization/$Repository/Common/${Repository}Usings.cs
+    fi
+    sudo chmod -R 777 $PWD
+}
+
 function CopyVSCodeFiles() 
 {
     if [ -d "/$Organization/$Repository/$Project/.vscode" ]; then
@@ -65,7 +87,10 @@ function CreateApiContainer()
 
 function SetupDotNet() 
 {
+    Divide
     Info "Setting up API"
+    Divide
+    CreateNonExistentFilesForApi
     CopyVSCodeFiles
 
     export volumes=""
