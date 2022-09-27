@@ -58,11 +58,11 @@ function BuildDependenciesMappingsForApi()
             Org=PaydarCore
         fi
         if [ ! -d /$Org/$Repo/Models ]; then
-            Warning "Wrong dependency: $Dependency"
+            Warning "Wrong dependency: $Dependency. No $Org/$Repo/Models"
             continue;
         fi
         if [ ! -f /$Org/$Repo/Database.json ]; then
-            Warning "Wrong dependency: $Dependency"
+            Warning "Wrong dependency: $Dependency. No /$Org/$Repo/Database.json"
             continue;
         fi
         export volumes="$volumes\n            - *$Org*$Repo:*$Org*$Repo"
