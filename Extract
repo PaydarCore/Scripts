@@ -3,6 +3,11 @@ function Extract()
     Divide
 
     export Organization=$(echo $PWD | cut -d'/' -f2)
+    if [[ $Organization != PaydarCore ]] && [[ $Organization != PaydarNode ]]; then
+        export Organization="";
+        Error "Not a PaydarCore or PaydarNode directory"
+        return;
+    fi
     export Repository=$(echo $PWD | cut -d'/' -f3)
     export Project=$(echo $PWD | cut -d'/' -f4)
     export ProjectPath=$PWD
