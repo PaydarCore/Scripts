@@ -59,12 +59,9 @@ function SetupNext()
     export volumes=""
     BuildDependenciesMappings
     # echo -e $volumes
-    ComposeFile=/Temp$ProjectPath/DockerCompose.yml
-    sudo mkdir -p $(dirname $ComposeFile)
-    envsubst < /PaydarCore/Infra/Next/Dev/DockerCompose.yml > $ComposeFile
 
-    sed -i "s/# Dependencies/$volumes/g" $ComposeFile
-    sed -i "s/*/\//g" $ComposeFile
+    envsubst < /PaydarCore/Infra/Next/Dev/DockerCompose.yml > $ComposePath
 
-    sudo docker-compose -p "${Repository}_${Project}" -f $ComposeFile up --remove-orphans
+    sed -i "s/# Dependencies/$volumes/g" $ComposePath
+    sed -i "s/*/\//g" $ComposePath
 }

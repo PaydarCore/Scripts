@@ -85,12 +85,9 @@ function BuildLocalizationMappings()
 
 function CreateApiContainer()
 {
-    ComposeFile=/Temp/$Organization/$Repository/$Project/DockerCompose.yml
-    mkdir -p $(dirname $ComposeFile)
-    envsubst < /PaydarCore/Infra/DotNet/Dev/DockerCompose.yml > $ComposeFile
-    sed -i "s/# Dependencies/$volumes/g" $ComposeFile
-    sed -i "s/*/\//g" $ComposeFile
-    docker-compose -p "${Repository}_${Project}" -f $ComposeFile up --remove-orphans
+    envsubst < /PaydarCore/Infra/DotNet/Dev/DockerCompose.yml > $ComposePath
+    sed -i "s/# Dependencies/$volumes/g" $ComposePath
+    sed -i "s/*/\//g" $ComposePath
 }
 
 function SetupDotNet() 
