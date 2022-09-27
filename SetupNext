@@ -30,6 +30,26 @@ function CreateNonExistentFilesForSite()
     sudo chmod -R 777 $PWD
 }
 
+function BuildDependenciesMappings()
+{
+    if [ ! -f /$Organization/Common/Dependencies ]; then
+        return;
+    fi
+    while read Dependency; 
+    do
+        if [ -d /HolismSite/$Dependency/pages ]; then
+            while read foundDirectory;
+            do
+                echo $foundDirectory
+                pageDirectory=$(basename $foundDirectory)
+                if [ ! -d /$Organization/$Repository/pages/$pageDirectory ] || [[ $(find /$Organization/$Repository/pages/$pageDirectory -mindepth 1 | wc -l ) == 0 ]]; then
+                    export volumes="$volumes\n      - *HolismSite*$Dependency*pages*$pageDirectory:*$Organization*$Repository*pages*$pageDirectory"
+                fi
+            done <<< "$(find /HolismSite/$Dependency/pages -mindepth 1 -maxdepth 1 -type d)"
+        fi
+    done <<< "$({ cat "/$Organization/Common/Dependencies"; echo; })"
+}
+
 function SetupNext() 
 {
     Info "Seting up site"
