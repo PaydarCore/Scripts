@@ -1,3 +1,25 @@
+function CreateNonExistentFilesForApi()
+{
+    if [ ! -f Program.cs ]; then
+        echo "Application.Run();" > Program.cs
+    fi
+    if [ ! -f /$Organization/$Repository/Common/ConnectionStrings.json ]; then
+        echo "{"  > /$Organization/$Repository/Common/ConnectionStrings.json
+        echo "    \"Database\": \"Data Source=database;Initial Catalog=$Repository;user id=SA;password=Hjvj6DS8yvq25MOW_LRkV;Application Name=$Repository\"" >> /$Organization/$Repository/Common/ConnectionStrings.json
+        echo "}"  >> /$Organization/$Repository/Common/ConnectionStrings.json
+    fi
+    if [ ! -f /$Organization/$Repository/Common/Settings.json ]; then
+        echo "{ }"  > /$Organization/$Repository/Common/Settings.json
+    fi
+    if [ ! -f /$Organization/$Repository/Common/ModuleUsings.cs ]; then
+        touch /$Organization/$Repository/Common/ModuleUsings.cs
+    fi
+    if [ ! -f /$Organization/$Repository/Common/${Repository}Usings.cs ]; then
+        touch /$Organization/$Repository/Common/${Repository}Usings.cs
+    fi
+    sudo chmod -R 777 $PWD
+}
+
 function CopyVSCodeFiles() 
 {
     if [ -d "/$Organization/$Repository/$Project/.vscode" ]; then
@@ -25,12 +47,20 @@ function BuildConfigMappings()
 
 function BuildDependenciesMappingsForApi() 
 {
-    if [ ! -f /$Organization/$Repository/Common/ApiDependencies ]; then
+    if [ ! -f /$Organization/$Repository/Common/Dependencies ]; then
         return;
     fi
     while read Dependency; do
-        Org=$(echo $Dependency | cut -d'/' -f1)
-        Repo=$(echo $Dependency | cut -d'/' -f2)
+        Repo=${Dependency}Api
+        if [ -d /$Organization/$Repository/$Dependency ]; then
+            Org=$Organization
+        else
+            Org=PaydarCore
+        fi
+        if [ ! -d /$Org/$Repo/Models ]; then
+            Warning "Wrong dependency: $Dependency"
+            continue;
+        fi
         if [ ! -f /$Org/$Repo/Database.json ]; then
             Warning "Wrong dependency: $Dependency"
             continue;
@@ -42,7 +72,7 @@ function BuildDependenciesMappingsForApi()
         if [[ $(basename $PWD) == *Admin* ]]; then
             export volumes="$volumes\n            - *$Org*$Repo*Api*Admin:*$Repository*$Project*$Repo*Api"
         fi
-    done <<< "$({ cat "/$Organization/$Repository/Common/ApiDependencies"; echo; })"
+    done <<< "$({ cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
 }
 
 function BuildLocalizationMappings()
@@ -55,17 +85,17 @@ function BuildLocalizationMappings()
 
 function CreateApiContainer()
 {
-    ComposeFile=/Temp/$Organization/$Repository/$Project/DockerCompose.yml
-    mkdir -p $(dirname $ComposeFile)
-    envsubst < /PaydarCore/Infra/DotNet/Dev/DockerCompose.yml > $ComposeFile
-    sed -i "s/# Dependencies/$volumes/g" $ComposeFile
-    sed -i "s/*/\//g" $ComposeFile
-    docker-compose -p "${Repository}_${Project}" -f $ComposeFile up --remove-orphans
+    envsubst < /PaydarCore/Infra/DotNet/Dev/DockerCompose.yml > $ComposePath
+    sed -i "s/# Dependencies/$volumes/g" $ComposePath
+    sed -i "s/*/\//g" $ComposePath
 }
 
 function SetupDotNet() 
 {
+    Divide
     Info "Setting up API"
+    Divide
+    CreateNonExistentFilesForApi
     CopyVSCodeFiles
 
     export volumes=""

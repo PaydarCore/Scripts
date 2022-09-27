@@ -30,6 +30,25 @@ function CreateNonExistentFilesForSite()
     sudo chmod -R 777 $PWD
 }
 
+function BuildDependenciesMappings()
+{
+    if [ ! -f /$Organization/$Repository/Common/Dependencies ]; then
+        return;
+    fi
+    while read Dependency; 
+    do
+        if [ -d /PaydarCore/$Dependency/Next/pages ]; then
+            while read foundDirectory;
+            do
+                pageDirectory=$(basename $foundDirectory)
+                if [ ! -d /$Organization/$Repository/$Project/pages/$pageDirectory ] || [[ $(find /$Organization/$Repository/$Project/pages/$pageDirectory -mindepth 1 | wc -l ) == 0 ]]; then
+                    export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*pages*$pageDirectory:*$Repository*$Project*pages*$pageDirectory"
+                fi
+            done <<< "$(find /PaydarCore/$Dependency/Next/pages -mindepth 1 -maxdepth 1 -type d)"
+        fi
+    done <<< "$({ cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
+}
+
 function SetupNext() 
 {
     Info "Seting up site"
@@ -37,8 +56,12 @@ function SetupNext()
     # CreateGitHubAction Next
     # DetermineTailwindConfigPath
     CreateNonExistentFilesForSite
-    ComposeFile=/Temp$ProjectPath/DockerCompose.yml
-    sudo mkdir -p $(dirname $ComposeFile)
-    envsubst < /PaydarCore/Infra/Next/Dev/DockerCompose.yml > $ComposeFile
-    sudo docker-compose -p "${Repository}_${Project}" -f $ComposeFile up --remove-orphans
+    export volumes=""
+    BuildDependenciesMappings
+    # echo -e $volumes
+
+    envsubst < /PaydarCore/Infra/Next/Dev/DockerCompose.yml > $ComposePath
+
+    sed -i "s/# Dependencies/$volumes/g" $ComposePath
+    sed -i "s/*/\//g" $ComposePath
 }

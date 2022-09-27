@@ -47,10 +47,7 @@ function SetupReact()
 
     CreateNonExistentFilesForReact
 
-    ComposePath=/Temp/$Organization/$Repository/$Project/DockerCompose.yml
-    sudo mkdir -p $(dirname $ComposePath)
     envsubst < /PaydarCore/Infra/React/Dev/DockerCompose.yml > $ComposePath
     sed -i "s/# Dependencies/$volumes/g" $ComposePath
     sed -i "s/*/\//g" $ComposePath
-    docker-compose -p "${Repository}_${Project}" -f $ComposePath up --remove-orphans
 }
