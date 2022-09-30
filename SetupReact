@@ -20,12 +20,21 @@ function CreateNonExistentFilesForReact()
 
 function BuildDependenciesMappingsForReact() 
 {
-    if [ ! -f /$Organization/$Repository/$Project/Dependencies ]; then
+    if [ ! -f /$Organization/$Repository/Common/Dependencies ]; then
         return;
     fi
     while read Dependency; do
-        Org=$(echo $Dependency | cut -d'/' -f1)
-        Repo=$(echo $Dependency | cut -d'/' -f2)
+        Repo=${Dependency}
+        echo $Dependency
+        if [ -d /$Organization/$Repository/$Dependency ]; then
+            Org=$Organization
+        else
+            Org=PaydarCore
+        fi
+        if [ ! -d /$Org/$Repo/Admin ]; then
+            Warning "Wrong dependency: $Dependency. No /$Org/$Repo/Admin"
+            continue;
+        fi
         if [[ $Repo == Common ]]; then
             continue;
         fi
@@ -33,7 +42,7 @@ function BuildDependenciesMappingsForReact()
         if [[ $(basename $PWD) == *Admin* ]]; then
             export volumes="$volumes\n      - *$Org*$Repo*Admin:*$Repository*$Project*src*$Repo"
         fi
-    done <<< "$({ cat "/$Organization/$Repository/$Project/Dependencies"; echo; })"
+    done <<< "$({ cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
 }
 
 function SetupReact()
@@ -43,7 +52,7 @@ function SetupReact()
 
     export volumes=""
     BuildDependenciesMappingsForReact
-    # echo -e $volumes
+    echo -e $volumes
 
     CreateNonExistentFilesForReact
 
