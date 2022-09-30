@@ -20,6 +20,11 @@ function CreateNonExistentFilesForApi()
     sudo chmod -R 777 $PWD
 }
 
+function GenerateModuleUsings()
+{
+    sed 's/\w*/global using \0;/' $DependenciesPath > $ModuleUsingsPath
+}
+
 function CopyVSCodeFiles() 
 {
     if [ -d "/$Organization/$Repository/$Project/.vscode" ]; then
@@ -92,6 +97,7 @@ function SetupDotNet()
     Info "Setting up API"
     Divide
     CreateNonExistentFilesForApi
+    GenerateModuleUsings
     CopyVSCodeFiles
 
     export volumes=""

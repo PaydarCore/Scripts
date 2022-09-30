@@ -1,0 +1,11 @@
+function SetPaths()
+{
+    export CommonPath=/$Organization/$Repository/Common
+    export DependenciesPath=/$Organization/$Repository/Common/Dependencies
+    export ConnectionStringsPath=/$Organization/$Repository/Common/ConnectionStrings.json
+    export BrandingPath=/$Organization/$Repository/Common/Branding
+    export SettingsPath=/$Organization/$Repository/Common/Settings.json
+    export SettingsOverridePath=/$Organization/$Repository/$Project/SettingsOverride.json
+    export ModuleUsingsPath=/$Organization/$Repository/Common/ModuleUsings.cs
+    export OrgUsingsPath=/$Organization/$Repository/Common/${Organization}Usings.cs
+}
