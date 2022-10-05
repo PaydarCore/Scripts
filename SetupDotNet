@@ -66,6 +66,9 @@ function BuildDependenciesMappingsForApi()
             Warning "Wrong dependency: $Dependency. No /$Org/$Repo/Database.json"
             continue;
         fi
+        if [[ $Repo == AccountsApi ]] || [[ $Repo == LanguagesApi ]] || [[ $Repo == EntitiesApi ]]; then
+            continue;
+        fi
         export volumes="$volumes\n            - *$Org*$Repo:*$Org*$Repo"
         export volumes="$volumes\n            - *$Org*$Repo*Models:*$Repository*$Project*$Repo*Models"
         export volumes="$volumes\n            - *$Org*$Repo*DataAccess:*$Repository*$Project*$Repo*DataAccess"
