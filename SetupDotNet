@@ -94,33 +94,6 @@ function CreateApiContainer()
     sed -i "s/*/\//g" $ComposePath
 }
 
-function CreateStorageContainer()
-{
-    GetStorageHost
-    GetRandomPort
-    CreateCertificate
-    SetupNginx
-    SetupLocalDns
-    export $Project=Storage
-
-    StorageComposePath=/Temp/$Organization/$Repository/Storage/DockerCompose.yml
-    sudo mkdir -p $(dirname $StorageComposePath)
-    sudo chmod -R 777 /Temp
-    envsubst < /PaydarCore/Infra/Storage/Dev/DockerCompose.yml > $StorageComposePath
-    docker-compose -p ${Repository}Storage -f $StorageComposePath up --remove-orphans
-}
-
-function GetStorageHost()
-{
-    if [ ! -f $StorageHost ]; then
-        return;
-    fi
-
-    read Host < $StorageHost
-    export Host;
-    Info "Storage host is $Host"
-}
-
 function SetupDotNet() 
 {
     Divide
