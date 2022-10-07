@@ -94,6 +94,13 @@ function CreateApiContainer()
     sed -i "s/*/\//g" $ComposePath
 }
 
+function CreateStorageContainer()
+{
+    StorageComposePath=/Temp/$Organization/$Repository/Storage/DockerCompose.yml
+    envsubst < /PaydarCore/Infra/DotNet/Storage/DockerCompose.yml > $StorageComposePath
+    docker-compose -p ${Repository}Storage -f $StorageComposePath up --remove-orphans
+}
+
 function SetupDotNet() 
 {
     Divide
@@ -113,5 +120,6 @@ function SetupDotNet()
 
     # CreateStorageContainer
     SetupSql
-    CreateApiContainer "Dev"
+    CreateStorageContainer
+    CreateApiContainer
 }
