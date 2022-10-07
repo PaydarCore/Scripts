@@ -101,6 +101,7 @@ function CreateStorageContainer()
     CreateCertificate
     SetupNginx
     SetupLocalDns
+    export $Project=Storage
 
     StorageComposePath=/Temp/$Organization/$Repository/Storage/DockerCompose.yml
     sudo mkdir -p $(dirname $StorageComposePath)
