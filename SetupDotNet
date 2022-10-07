@@ -138,9 +138,8 @@ function SetupDotNet()
 
     # CreateGitHubAction DotNet
 
-    # CreateStorageContainer
-    # SetupSql
-    # CreateApiContainer
+    SetupSql
+    CreateApiContainer
 
-    CreateStorageContainer
+    # CreateStorageContainer
 }
