@@ -25,7 +25,6 @@ function BuildDependenciesMappingsForReact()
     fi
     while read Dependency; do
         Repo=${Dependency}
-        echo $Dependency
         if [ -d /$Organization/$Repository/$Dependency ]; then
             Org=$Organization
         else
