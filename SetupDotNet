@@ -23,6 +23,11 @@ function CreateNonExistentFilesForApi()
 function GenerateModuleUsings()
 {
     sed 's/\w*/global using \0;/' $DependenciesPath > $ModuleUsingsPath
+    echo 'global using Entities;' >> $ModuleUsingsPath
+    echo 'global using Globalization;' >> $ModuleUsingsPath
+    echo 'global using Accounts;' >> $ModuleUsingsPath
+    cat $ModuleUsingsPath | sort > /Temp/ModuleUsings
+    cat /Temp/ModuleUsings > $ModuleUsingsPath
 }
 
 function CopyVSCodeFiles() 
