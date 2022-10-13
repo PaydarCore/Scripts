@@ -41,7 +41,7 @@ function BuildDependenciesMappingsForReact()
         if [[ $(basename $PWD) == *Admin* ]]; then
             export volumes="$volumes\n      - *$Org*$Repo*Admin:*$Repository*$Project*src*$Repo"
         fi
-    done <<< "$({ cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
+    done <<< "$({ echo Entities; echo Globalization; echo Accounts; cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
 }
 
 function SetupReact()
