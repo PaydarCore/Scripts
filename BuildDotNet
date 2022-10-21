@@ -2,5 +2,7 @@ function BuildDotNet()
 {
     docker exec $Repository$Project bash -c "cd /$Repository/$Project && dotnet publish -o /Build"
 
-    docker cp $Repository$Project:/Build /Build
+    sudo docker cp $Repository$Project:/Build /
+
+    docker build -f /PaydarCore/Infra/DotNet/Prod/Dockerfile -t $LowercaseRepo$LowercaseProject /Build
 }
