@@ -1,8 +1,12 @@
 function BuildDotNet()
 {
-    docker exec $Repository$Project bash -c "cd /$Repository/$Project && dotnet publish -o /Build"
+    docker exec $Repository$Project bash -c "cd /$Repository/$Project && dotnet publish --configuration Release --framework net6.0 --runtime linux-x64 --output /Build --no-self-contained --verbosity quiet --nologo -nowarn:MSB3073,MSB4011,NETSDK1086"
 
     sudo docker cp $Repository$Project:/Build /
 
-    docker build -f /PaydarCore/Infra/DotNet/Prod/Dockerfile -t $LowercaseRepo$LowercaseProject /Build
+    rm -rf /Build/ConnectionStrings.json
+    rm -rf /Build/Settings.json
+    rm -rf /Build/SettingsOverride.json
+
+    docker build -f /PaydarCore/Infra/DotNet/Prod/Dockerfile -t ghcr.io/paydarnode/$LowercaseRepo/$LowercaseProject:latest /Build
 }
