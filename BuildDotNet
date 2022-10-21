@@ -1,0 +1,6 @@
+function BuildDotNet()
+{
+    docker exec $Repository$Project bash -c "cd /$Repository/$Project && dotnet publish -o /Temp/Publish"
+
+    docker cp $Repository$Project:/Temp/Publish /Build
+}
