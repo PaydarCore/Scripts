@@ -8,4 +8,6 @@ function BuildNext()
     docker cp $Repository$Project:/$Repository/$Project/.next  /Build
     docker cp $Repository$Project:/next/package.json  /Build
     docker cp $Repository$Project:/next/node_modules  /Build
+
+    rm -rf /Build/public/Fonts
 }
