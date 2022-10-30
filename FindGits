@@ -1,4 +1,4 @@
 function FindGits()
 {
-    find /PaydarCore /PaydarNode -maxdepth 3 -type d -name .git -not -path "*/Trash/*" -not -path "*/Temp/*" -not -path "*/opt/*" -print 2>/dev/null
+    find /PaydarCore /PaydarNode -maxdepth 3 -type d -name .git -not -path "*/Trash/*" -not -path "*/Temp/*" -not -path "*/opt/*" -not -path "*/.github/*" -print 2>/dev/null
 }
