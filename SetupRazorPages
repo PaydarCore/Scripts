@@ -1,6 +1,20 @@
+function CreateRazorPagesContainer()
+{
+    envsubst < /PaydarCore/Infra/RazorPages/Dev/DockerCompose.yml > $ComposePath
+    sed -i "s/*/\//g" $ComposePath
+}
+
 function SetupRazorPages() 
 {
+    Divide
     Warning This is a................
     Warning ...ASP.NET Razor Pages...
     Warning ..................project
+
+    Divide
+    Info "Setting up ASP.NET Razor Pages project"
+    Divide
+
+    CreateRazorPagesContainer
+    
 }
