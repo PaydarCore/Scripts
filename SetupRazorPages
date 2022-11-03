@@ -1,0 +1,6 @@
+function SetupRazorPages() 
+{
+    Warning This is a................
+    Warning ...ASP.NET Razor Pages...
+    Warning ..................project
+}

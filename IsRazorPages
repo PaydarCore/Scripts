@@ -1,0 +1,8 @@
+function IsRazorPages()
+{
+    TargetsFiles=$(find . -maxdepth 1 -name "*.csproj" | xargs grep targets | wc -l)
+    if [[ $TargetsFiles > 1 ]]; then
+        return 0;
+    fi
+    return 1;
+}
