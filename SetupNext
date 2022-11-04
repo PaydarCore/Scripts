@@ -46,6 +46,15 @@ function BuildDependenciesMappings()
                 fi
             done <<< "$(find /PaydarCore/$Dependency/Next/pages -mindepth 1 -maxdepth 1 -type d)"
         fi
+        if [ -d /PaydarCore/$Dependency/Next/app ]; then
+            while read foundDirectory;
+            do
+                pageDirectory=$(basename $foundDirectory)
+                if [ ! -d /$Organization/$Repository/$Project/app/$pageDirectory ] || [[ $(find /$Organization/$Repository/$Project/app/$pageDirectory -mindepth 1 | wc -l ) == 0 ]]; then
+                    export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*app*$pageDirectory:*$Repository*$Project*app*$pageDirectory"
+                fi
+            done <<< "$(find /PaydarCore/$Dependency/Next/app -mindepth 1 -maxdepth 1 -type d)"
+        fi
     done <<< "$({ cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
 }
 
