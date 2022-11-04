@@ -7,14 +7,10 @@ function CreateRazorContainer()
 function SetupRazor() 
 {
     Divide
-    Warning This is a................
-    Warning ...ASP.NET Razor Pages...
-    Warning ..................project
-
-    Divide
     Info "Setting up ASP.NET Razor Pages project"
     Divide
 
-    CreatePagesContainer
-    
+    export DllName='${DllName}'
+
+    CreateRazorContainer
 }
