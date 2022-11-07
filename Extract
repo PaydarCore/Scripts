@@ -11,6 +11,7 @@ function Extract()
     export Repository=$(echo $PWD | cut -d'/' -f3)
     export Project=$(echo $PWD | cut -d'/' -f4)
     export ProjectPath=$PWD
+    export RepositoryPath=/$Organization/$Repository
 
     export LowercaseOrg=$(echo $Organization | tr '[:upper:]' '[:lower:]')
     export LowercaseRepo=$(echo $Repository | tr '[:upper:]' '[:lower:]')
