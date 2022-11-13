@@ -1,4 +1,0 @@
-function FindNextVersion()
-{
-    cat package.json | grep '\"next\":' | xargs echo | awk '{print $2}' | cut -d',' -f1
-}

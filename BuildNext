@@ -5,6 +5,7 @@ function BuildNext()
     docker exec $Repository$Project bash -c "echo '' > /$Repository/$Project/public/robots.txt"
     docker exec $Repository$Project bash -c "echo '' > /$Repository/$Project/public/colors.css"
 
+    docker exec $Repository$Project bash -c "Hash | xargs echo > /next/hash"
     docker exec $Repository$Project bash -c "cd /$Repository/$Project && npm run build"
 
     docker cp $Repository$Project:/$Repository/$Project/next.config.js /Build
@@ -13,6 +14,7 @@ function BuildNext()
     docker cp $Repository$Project:/$Repository/$Project/.next  /Build
     docker cp $Repository$Project:/next/package.json  /Build
     docker cp $Repository$Project:/next/node_modules  /Build
+    docker cp $Repository$Project:/next/hash  /Build
 
     docker exec $Repository$Project bash -c "rm -rf /$Repository/$Project/public/favicon.ico"
     docker exec $Repository$Project bash -c "rm -rf /$Repository/$Project/public/sitemap.xml"
