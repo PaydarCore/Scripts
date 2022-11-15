@@ -11,7 +11,7 @@ function CreateNonExistentFilesForSite()
         cp /PaydarCore/Infra/Next/FooterTemplate ./Components/Shared/Footer.js
     fi 
     if [ ! -f next.config.js ]; then
-        touch next.config.js
+        cp /PaydarCore/Infra/Next/NextConfigTemplate tailwind.config.js
     fi
     if [ ! -f tailwind.config.js ]; then
         cp /PaydarCore/Infra/Next/TailwindConfigTemplate tailwind.config.js
