@@ -3,6 +3,8 @@ function CreateNonExistentFilesForApi()
     if [ ! -f Program.cs ]; then
         echo "Application.Run();" > Program.cs
     fi
+    sudo mkdir -p /$Organization/$Repository/Common
+    sudo chmod -R 777 /$Organization/$Repository/Common
     if [ ! -f /$Organization/$Repository/Common/ConnectionStrings.json ]; then
         echo "{"  > /$Organization/$Repository/Common/ConnectionStrings.json
         echo "    \"Database\": \"Data Source=database;Initial Catalog=$Repository;user id=SA;password=Hjvj6DS8yvq25MOW_LRkV;Application Name=$Repository\"" >> /$Organization/$Repository/Common/ConnectionStrings.json
