@@ -59,19 +59,19 @@ function BuildDependenciesMappings()
                 fi
             done <<< "$(find /PaydarCore/$Dependency/Next/app -mindepth 1 -maxdepth 1 -type d)"
         fi
-        if [ -d /PaydarCore/$Dependency/Components ]; then
+        if [ -d /PaydarCore/$Dependency/Next/Components ]; then
             export volumes="$volumes\n      - *PaydarCore*$Dependency*Components:*$Repository*$Project*Modules*$Dependency*Components"
         fi
-        if [ -d /PaydarCore/$Dependency/Contexts ]; then
+        if [ -d /PaydarCore/$Dependency/Next/Contexts ]; then
             export volumes="$volumes\n      - *PaydarCore*$Dependency*Contexts:*$Repository*$Project*Modules*$Dependency*Contexts"
         fi
-        if [ -d /PaydarCore/$Dependency/Hooks ]; then
+        if [ -d /PaydarCore/$Dependency/Next/Hooks ]; then
             export volumes="$volumes\n      - *PaydarCore*$Dependency*Hooks:*$Repository*$Project*Modules*$Dependency*Hooks"
         fi
-        if [ -f /PaydarCore/$Dependency/Exports.js ]; then
+        if [ -f /PaydarCore/$Dependency/Next/Exports.js ]; then
             export volumes="$volumes\n      - *PaydarCore*$Dependency*Exports.js:*$Repository*$Project*Modules*$Dependency*Exports.js"
         fi
-    done <<< "$({ cat "/$Organization/$Repository/$Project/Common/Dependencies"; echo; })"
+    done <<< "$({ cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
 }
 
 function SetupNext() 
