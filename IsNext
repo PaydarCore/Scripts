@@ -2,7 +2,7 @@
 
 function IsNext()
 {
-    if [[ $(basename $PWD) == *Site* ]]; then
+    if [[ $(basename $PWD) == *Site* ]] && [[ ! $(basename $PWD) == *Api* ]]; then
         return 0;
     fi
     if [[ $(basename $PWD) == *Next* ]]; then
