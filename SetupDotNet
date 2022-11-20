@@ -86,6 +86,9 @@ function BuildDependenciesMappingsForApi()
         if [[ $(basename $PWD) == *Admin* ]]; then
             export volumes="$volumes\n            - *$Org*$Repo*Api*Admin:*$Repository*$Project*$Repo*Api"
         fi
+        if [[ $(basename $PWD) == *Site* ]]; then
+            export volumes="$volumes\n            - *$Org*$Repo*Api*Site:*$Repository*$Project*$Repo*Api"
+        fi
     done <<< "$({ cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
 }
 
