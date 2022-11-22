@@ -25,7 +25,7 @@ function CreateNonExistentFilesForSite()
     if [ ! -f jsconfig.json ]; then
         cp /PaydarCore/Infra/Next/JsConfigTemplate jsconfig.json
     fi
-    if [ ! -f pages/index.js ]; then
+    if [ ! -f pages/index.js ] && [ ! -f app/page.js ]; then
         cp /PaydarCore/Infra/Next/IndexTemplate pages/index.js
     fi
     if [ ! -f pages/_app.js ]; then
