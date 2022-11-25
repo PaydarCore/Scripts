@@ -25,7 +25,7 @@ function CreateNonExistentFilesForSite()
     if [ ! -f jsconfig.json ]; then
         cp /PaydarCore/Infra/Next/JsConfigTemplate jsconfig.json
     fi
-    if [ ! -f pages/index.js ] && [ ! -f app/page.js ]; then
+    if [ ! -f pages/index.js ] && [ ! -f app/page.js ] && [ ! -f "pages/[[...path]].js" ]; then
         cp /PaydarCore/Infra/Next/IndexTemplate pages/index.js
     fi
     if [ ! -f pages/_app.js ]; then
@@ -67,6 +67,9 @@ function BuildDependenciesMappings()
         fi
         if [ -d /PaydarCore/$Dependency/Next/Hooks ]; then
             export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*Hooks:*$Repository*$Project*Modules*$Dependency*Hooks"
+        fi
+        if [ -d /PaydarCore/$Dependency/Next/Functions ]; then
+            export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*Functions:*$Repository*$Project*Modules*$Dependency*Functions"
         fi
         if [ -f /PaydarCore/$Dependency/Next/Exports.js ]; then
             export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*Exports.js:*$Repository*$Project*Modules*$Dependency*Exports.js"
