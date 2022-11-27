@@ -8,5 +8,5 @@ function BuildDotNet()
     sudo rm -rf /Build/Settings.json
     sudo rm -rf /Build/SettingsOverride.json
 
-    docker build -f /PaydarCore/Infra/DotNet/Prod/Dockerfile -t ghcr.io/paydarnode/$LowercaseRepo/$LowercaseProject:latest /Build
+    # docker build -f /PaydarCore/Infra/DotNet/Prod/Dockerfile -t ghcr.io/paydarnode/$LowercaseRepo/$LowercaseProject:latest /Build
 }
