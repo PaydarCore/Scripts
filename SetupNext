@@ -42,16 +42,6 @@ function BuildDependenciesMappings()
     while read Dependency; 
     do
         if [[ $Next13 ]]; then
-            if [ -d /PaydarCore/$Dependency/Next/pages ]; then
-                while read foundDirectory;
-                do
-                    pageDirectory=$(basename $foundDirectory)
-                    if [ ! -d /$Organization/$Repository/$Project/pages/$pageDirectory ] || [[ $(find /$Organization/$Repository/$Project/pages/$pageDirectory -mindepth 1 | wc -l ) == 0 ]]; then
-                        export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*pages*$pageDirectory:*$Repository*$Project*pages*$pageDirectory"
-                    fi
-                done <<< "$(find /PaydarCore/$Dependency/Next/pages -mindepth 1 -maxdepth 1 -type d)"
-            fi
-        else
             if [ -d /PaydarCore/$Dependency/Next/App ]; then
                 while read foundDirectory;
                 do
@@ -60,6 +50,16 @@ function BuildDependenciesMappings()
                         export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*App*$pageDirectory:*$Repository*$Project*app*$pageDirectory"
                     fi
                 done <<< "$(find /PaydarCore/$Dependency/Next/App -mindepth 1 -maxdepth 1 -type d)"
+            fi
+        else
+            if [ -d /PaydarCore/$Dependency/Next/pages ]; then
+                while read foundDirectory;
+                do
+                    pageDirectory=$(basename $foundDirectory)
+                    if [ ! -d /$Organization/$Repository/$Project/pages/$pageDirectory ] || [[ $(find /$Organization/$Repository/$Project/pages/$pageDirectory -mindepth 1 | wc -l ) == 0 ]]; then
+                        export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*pages*$pageDirectory:*$Repository*$Project*pages*$pageDirectory"
+                    fi
+                done <<< "$(find /PaydarCore/$Dependency/Next/pages -mindepth 1 -maxdepth 1 -type d)"
             fi
         fi
         if [ -d /PaydarCore/$Dependency/Next/Components ]; then
