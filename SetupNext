@@ -50,14 +50,14 @@ function BuildDependenciesMappings()
                 fi
             done <<< "$(find /PaydarCore/$Dependency/Next/pages -mindepth 1 -maxdepth 1 -type d)"
         fi
-        if [ -d /PaydarCore/$Dependency/Next/app ]; then
+        if [ -d /PaydarCore/$Dependency/Next/App ]; then
             while read foundDirectory;
             do
                 pageDirectory=$(basename $foundDirectory)
                 if [ ! -d /$Organization/$Repository/$Project/app/$pageDirectory ] || [[ $(find /$Organization/$Repository/$Project/app/$pageDirectory -mindepth 1 | wc -l ) == 0 ]]; then
-                    export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*app*$pageDirectory:*$Repository*$Project*app*$pageDirectory"
+                    export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*App*$pageDirectory:*$Repository*$Project*app*$pageDirectory"
                 fi
-            done <<< "$(find /PaydarCore/$Dependency/Next/app -mindepth 1 -maxdepth 1 -type d)"
+            done <<< "$(find /PaydarCore/$Dependency/Next/App -mindepth 1 -maxdepth 1 -type d)"
         fi
         if [ -d /PaydarCore/$Dependency/Next/Components ]; then
             export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*Components:*$Repository*$Project*Modules*$Dependency*Components"
@@ -87,6 +87,14 @@ function SetupNext()
     export volumes=""
     BuildDependenciesMappings
     # echo -e $volumes
+
+    export Next13=$(grep "app:\s*true" next.config.js)
+    if [[ $Next13 ]]; then
+        Success "Yep"
+    else
+        Error "no"
+    fi
+    exit
 
     envsubst < /PaydarCore/Infra/Next/Dev/DockerCompose.yml > $ComposePath
 
