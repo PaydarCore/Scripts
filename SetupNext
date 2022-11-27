@@ -89,12 +89,6 @@ function SetupNext()
     # echo -e $volumes
 
     export Next13=$(grep "app:\s*true" next.config.js)
-    if [[ $Next13 ]]; then
-        Success "Yep"
-    else
-        Error "no"
-    fi
-    exit
 
     envsubst < /PaydarCore/Infra/Next/Dev/DockerCompose.yml > $ComposePath
 
