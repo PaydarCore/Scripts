@@ -6,5 +6,8 @@ function BuildReact()
     docker cp $Repository$Project:/$Repository/$Project/dist/. /Build
     docker cp $Repository$Project:/react/hash  /Build
 
-    rm -rf /Build/public/Fonts
+    cd /Build
+    zip -r panel.zip assets Fonts hash images index.html
+
+    # rm -rf /Build/public/Fonts
 }
