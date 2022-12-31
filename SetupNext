@@ -2,20 +2,19 @@ function CreateNonExistentFilesForSite()
 {
     sudo mkdir -p Components
     sudo mkdir -p Components/Shared
-    sudo mkdir -p pages
-    sudo mkdir -p app
-    sudo mkdir -p public
-    sudo mkdir -p contents
-    sudo mkdir -p styles
+    sudo mkdir -p App
+    sudo mkdir -p Public
+    sudo mkdir -p Contents
+    sudo mkdir -p Styles
     sudo chmod -R 777 $PWD
     if [[ $(find Components -type f | wc -l) == 0 ]]; then
         cp /PaydarCore/Infra/Next/FooterTemplate ./Components/Shared/Footer.js
     fi 
-    if [ ! -f next.config.js ]; then
-        cp /PaydarCore/Infra/Next/NextConfigTemplate next.config.js
+    if [ ! -f NextConfig.js ]; then
+        cp /PaydarCore/Infra/Next/NextConfigTemplate NextConfig.js
     fi
-    if [ ! -f tailwind.config.js ]; then
-        cp /PaydarCore/Infra/Next/TailwindConfigTemplate tailwind.config.js
+    if [ ! -f TailwindConfig.js ]; then
+        cp /PaydarCore/Infra/Next/TailwindConfigTemplate TailwindConfig.js
     fi
     if [ ! -f .env ]; then
         touch .env
@@ -23,14 +22,14 @@ function CreateNonExistentFilesForSite()
     if [ ! -f .env.production ]; then
         touch .env.production
     fi
-    if [ ! -f jsconfig.json ]; then
-        cp /PaydarCore/Infra/Next/JsConfigTemplate jsconfig.json
+    if [ ! -f JsConfig.json ]; then
+        cp /PaydarCore/Infra/Next/JsConfigTemplate JsConfig.json
     fi
-    if [ ! -f pages/index.js ] && [ ! -f app/page.js ] && [ ! -f "pages/[[...path]].js" ]; then
-        cp /PaydarCore/Infra/Next/IndexTemplate pages/index.js
+    if [ ! -f App/index.js ] && [ ! -f App/page.js ] && [ ! -f "App/[[...path]].js" ]; then
+        cp /PaydarCore/Infra/Next/IndexTemplate App/index.js
     fi
-    if [ ! -f pages/_app.js ]; then
-        cp /PaydarCore/Infra/Next/AppTemplate pages/_app.js
+    if [ ! -f App/_app.js ]; then
+        cp /PaydarCore/Infra/Next/AppTemplate App/_app.js
     fi
     sudo chmod -R 777 $PWD
 }
@@ -47,20 +46,20 @@ function BuildDependenciesMappings()
                 while read foundDirectory;
                 do
                     pageDirectory=$(basename $foundDirectory)
-                    if [ ! -d /$Organization/$Repository/$Project/app/$pageDirectory ] || [[ $(find /$Organization/$Repository/$Project/app/$pageDirectory -mindepth 1 | wc -l ) == 0 ]]; then
-                        export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*App*$pageDirectory:*$Repository*$Project*app*$pageDirectory"
+                    if [ ! -d /$Organization/$Repository/$Project/App/$pageDirectory ] || [[ $(find /$Organization/$Repository/$Project/App/$pageDirectory -mindepth 1 | wc -l ) == 0 ]]; then
+                        export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*App*$pageDirectory:*$Repository*$Project*App*$pageDirectory"
                     fi
                 done <<< "$(find /PaydarCore/$Dependency/Next/App -mindepth 1 -maxdepth 1 -type d)"
             fi
         else
-            if [ -d /PaydarCore/$Dependency/Next/pages ]; then
+            if [ -d /PaydarCore/$Dependency/Next/App ]; then
                 while read foundDirectory;
                 do
                     pageDirectory=$(basename $foundDirectory)
-                    if [ ! -d /$Organization/$Repository/$Project/pages/$pageDirectory ] || [[ $(find /$Organization/$Repository/$Project/pages/$pageDirectory -mindepth 1 | wc -l ) == 0 ]]; then
-                        export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*pages*$pageDirectory:*$Repository*$Project*pages*$pageDirectory"
+                    if [ ! -d /$Organization/$Repository/$Project/App/$pageDirectory ] || [[ $(find /$Organization/$Repository/$Project/App/$pageDirectory -mindepth 1 | wc -l ) == 0 ]]; then
+                        export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*App*$pageDirectory:*$Repository*$Project*App*$pageDirectory"
                     fi
-                done <<< "$(find /PaydarCore/$Dependency/Next/pages -mindepth 1 -maxdepth 1 -type d)"
+                done <<< "$(find /PaydarCore/$Dependency/Next/App -mindepth 1 -maxdepth 1 -type d)"
             fi
         fi
         if [ -d /PaydarCore/$Dependency/Next/Components ]; then
@@ -92,7 +91,7 @@ function SetupNext()
     BuildDependenciesMappings
     # echo -e $volumes
 
-    export Next13=$(grep "app:\s*true" next.config.js)
+    export Next13=$(grep "app:\s*true" NextConfig.js)
 
     envsubst < /PaydarCore/Infra/Next/Dev/DockerCompose.yml > $ComposePath
 
