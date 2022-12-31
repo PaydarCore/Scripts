@@ -93,7 +93,7 @@ function SetupSite()
 
     export Next13=$(grep "app:\s*true" NextConfig.js)
 
-    envsubst < /PaydarCore/Docker/Composes/Site.yml > $ComposePath
+    envsubst < /PaydarCore/Docker/Composes/Site > $ComposePath
 
     sed -i "s/# Dependencies/$volumes/g" $ComposePath
     sed -i "s/*/\//g" $ComposePath
