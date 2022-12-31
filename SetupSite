@@ -1,4 +1,4 @@
-function CreateNonExistentFilesForSite()
+function CreateNonExistentFilesForNext()
 {
     sudo mkdir -p Components
     sudo mkdir -p Components/Shared
@@ -80,20 +80,20 @@ function BuildDependenciesMappings()
     done <<< "$({ cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
 }
 
-function SetupNext() 
+function SetupSite() 
 {
     Info "Seting up site"
     # LinkGitIgnore $PWD
     # CreateGitHubAction Next
     # DetermineTailwindConfigPath
-    CreateNonExistentFilesForSite
+    CreateNonExistentFilesForNext
     export volumes=""
     BuildDependenciesMappings
     # echo -e $volumes
 
     export Next13=$(grep "app:\s*true" NextConfig.js)
 
-    envsubst < /PaydarCore/Infra/Next/Dev/DockerCompose.yml > $ComposePath
+    envsubst < /PaydarCore/Docker/Composes/Site.yml > $ComposePath
 
     sed -i "s/# Dependencies/$volumes/g" $ComposePath
     sed -i "s/*/\//g" $ComposePath

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function IsNext()
+function IsSite()
 {
     if [[ $(basename $PWD) == *Site* ]] && [[ ! $(basename $PWD) == *Api* ]]; then
         return 0;
