@@ -52,7 +52,7 @@ function BuildDependenciesMappings()
                 done <<< "$(find /PaydarCore/$Dependency/Next/App -mindepth 1 -maxdepth 1 -type d)"
             fi
         else
-            if [ -d /PaydarCore/$Dependency/Next/App ]; then
+            if [ -d /PaydarCore/$Dependency/Next/Pages ]; then
                 while read foundDirectory;
                 do
                     pageDirectory=$(basename $foundDirectory)
