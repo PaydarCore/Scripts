@@ -1,4 +1,4 @@
-function SetupSql()
+function SetupDatabase()
 {
     if [[ $(docker container ls | grep SqlServer ) ]]; then
         Info "SQL Server container is running"

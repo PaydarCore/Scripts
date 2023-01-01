@@ -107,7 +107,7 @@ function CreateApiContainer()
     sed -i "s/*/\//g" $ComposePath
 }
 
-function SetupDotNet() 
+function SetupApi() 
 {
     Divide
     Info "Setting up API"
@@ -124,7 +124,7 @@ function SetupDotNet()
 
     # CreateGitHubAction DotNet
 
-    SetupSql
+    SetupDatabase
     CreateApiContainer
 
     # CreateStorageContainer
