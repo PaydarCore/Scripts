@@ -44,7 +44,7 @@ function BuildDependenciesMappingsForReact()
     done <<< "$({ echo Entities; echo Globalization; echo Accounts; cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
 }
 
-function SetupReact()
+function SetupPanel()
 {
     Info "React setup"
     # CreateGitHubAction Next

@@ -1,4 +1,4 @@
-function BuildReact()
+function BuildPanel()
 {
     docker exec $Repository$Project bash -c "Hash | xargs echo > /react/hash"
     docker exec $Repository$Project bash -c "cd /$Repository/$Project && npm run build"
