@@ -5,5 +5,5 @@ function SetupSql()
     fi
     docker-compose -p "SqlServer" -f /PaydarCore/Infra/SqlServer/Dev/DockerCompose.yml up --remove-orphans
 
-    # docker run -p 1433:1433 -v /Temp/Database:/var/opt/mssql/data --name SqlServer paydar/sql
+    # docker run -p 1433:1433 -v /Temp/Database:/var/opt/mssql/data --name SqlServer paydar/database
 }
