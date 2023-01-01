@@ -55,7 +55,7 @@ function SetupReact()
 
     CreateNonExistentFilesForReact
 
-    envsubst < /PaydarCore/Infra/React/Dev/DockerCompose.yml > $ComposePath
+    envsubst < /PaydarCore/Docker/Composes/Panel > $ComposePath
     sed -i "s/# Dependencies/$volumes/g" $ComposePath
     sed -i "s/*/\//g" $ComposePath
 }
