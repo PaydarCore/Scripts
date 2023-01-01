@@ -3,7 +3,7 @@ function SetupDatabase()
     if [[ $(docker container ls | grep SqlServer ) ]]; then
         Info "SQL Server container is running"
     fi
-    docker-compose -p "SqlServer" -f /PaydarCore/Infra/SqlServer/Dev/DockerCompose.yml up --remove-orphans
+    docker-compose -p "SqlServer" -f /PaydarCore/Docker/Composes/Database up --remove-orphans
 
     # docker run -p 1433:1433 -v /Temp/Database:/var/opt/mssql/data --name SqlServer paydar/database
 }

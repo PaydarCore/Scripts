@@ -102,7 +102,7 @@ function BuildLocalizationMappings()
 
 function CreateApiContainer()
 {
-    envsubst < /PaydarCore/Infra/DotNet/Dev/DockerCompose.yml > $ComposePath
+    envsubst < /PaydarCore/Docker/Composes/Api > $ComposePath
     sed -i "s/# Dependencies/$volumes/g" $ComposePath
     sed -i "s/*/\//g" $ComposePath
 }
