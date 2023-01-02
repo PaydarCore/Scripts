@@ -13,7 +13,6 @@ function BuildSite()
     docker cp $Repository$Project:/$Repository/$Project/public  /Build
     docker cp $Repository$Project:/$Repository/$Project/.next  /Build
     docker cp $Repository$Project:/next/package.json  /Build
-    docker cp $Repository$Project:/next/node_modules  /Build
     docker cp $Repository$Project:/next/hash  /Build
 
     docker exec $Repository$Project bash -c "rm -rf /$Repository/$Project/public/favicon.ico"
