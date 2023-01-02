@@ -1,33 +1,25 @@
-#!/bin/bash
-
 function BuildSite()
 {
-  sudo cp -r /PaydarCore/Next/Base /Build
-  sudo cp -r /PaydarCore/Next/Hooks /Build
-  sudo mkdir /Build/public
-  sudo cp -r /PaydarCore/Next/Fonts /Build/public
-  sudo cp /PaydarCore/Next/tailwind.js /Build/tailwind.js
-  sudo cp /PaydarCore/Next/next.js /Build/next.js
-  sudo cp /PaydarCore/Next/package.json /Build/package.json
-  sudo cp /PaydarCore/Next/postcss.config.js /Build/postcss.config.js
-  sudo cp /PaydarCore/Next/.eslintrc.json /Build/.eslintrc.json
-  sudo cp -r /PaydarNode/$Repository/$Project/pages /Build
-  sudo cp -r /PaydarNode/$Repository/$Project/public /Build
-  sudo cp -r /PaydarNode/$Repository/$Project/styles /Build
-  sudo cp -r /PaydarNode/$Repository/$Project/Components /Build
-  sudo cp /PaydarNode/$Repository/$Project/.env /Build/.env
-  sudo cp /PaydarNode/$Repository/$Project/.env.production /Build/.env.production
-  sudo cp /PaydarNode/$Repository/$Project/jsconfig.json /Build/jsconfig.json
-  sudo cp /PaydarNode/$Repository/$Project/next.config.js /Build/next.config.js
-  sudo cp /PaydarNode/$Repository/$Project/tailwind.config.js /Build/tailwind.config.js
+    docker exec $Repository$Project bash -c "echo '' > /$Repository/$Project/public/favicon.ico"
+    docker exec $Repository$Project bash -c "echo '' > /$Repository/$Project/public/sitemap.xml"
+    docker exec $Repository$Project bash -c "echo '' > /$Repository/$Project/public/robots.txt"
+    docker exec $Repository$Project bash -c "echo '' > /$Repository/$Project/public/colors.css"
 
-  # cd /Build
-  # sudo npm run build
-  # zip -r published.zip .next/ public/
+    docker exec $Repository$Project bash -c "Hash | xargs echo > /next/hash"
+    docker exec $Repository$Project bash -c "cd /$Repository/$Project && npm run build"
 
-  # sudo cp /PaydarNode/Sarv/Site/Deployer /Build/Deployer
+    docker cp $Repository$Project:/$Repository/$Project/next.config.js /Build
+    docker cp $Repository$Project:/$Repository/$Project/next.js /Build
+    docker cp $Repository$Project:/$Repository/$Project/public  /Build
+    docker cp $Repository$Project:/$Repository/$Project/.next  /Build
+    docker cp $Repository$Project:/next/package.json  /Build
+    docker cp $Repository$Project:/next/node_modules  /Build
+    docker cp $Repository$Project:/next/hash  /Build
 
-  # scp published.zip Deployer root@server7.paydardata.com:/PaydarNode/GeoKhanjani/Site
-  # ssh -t root@server7.paydardata.com "cd /PaydarNode/GeoKhanjani/Site ; bash"
-  #cat Deployer | ssh root@server7.paydardata.com
+    docker exec $Repository$Project bash -c "rm -rf /$Repository/$Project/public/favicon.ico"
+    docker exec $Repository$Project bash -c "rm -rf /$Repository/$Project/public/sitemap.xml"
+    docker exec $Repository$Project bash -c "rm -rf /$Repository/$Project/public/robots.txt"
+    docker exec $Repository$Project bash -c "rm -rf /$Repository/$Project/public/colors.css"
+
+    rm -rf /Build/public/Fonts
 }
