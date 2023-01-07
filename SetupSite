@@ -74,8 +74,8 @@ function BuildDependenciesMappings()
         if [ -d /PaydarCore/$Dependency/Next/Functions ]; then
             export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*Functions:*$Repository*$Project*Modules*$Dependency*Functions"
         fi
-        if [ -f /PaydarCore/$Dependency/Next/Exports.js ]; then
-            export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*Exports.js:*$Repository*$Project*Modules*$Dependency*Exports.js"
+        if [ -f /PaydarCore/$Dependency/Next/Exports.jsx ]; then
+            export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*Exports.jsx:*$Repository*$Project*Modules*$Dependency*Exports.jsx"
         fi
     done <<< "$({ cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
 }
