@@ -6,7 +6,7 @@ function CreateNonExistentFilesForApi()
     sudo mkdir -p /$Organization/$Repository/Common
     sudo chmod -R 777 /$Organization/$Repository/Common
     if [ ! -f /$Organization/$Repository/Common/Dependencies ]; then
-        echo ""  > /$Organization/$Repository/Common/Dependencies
+        echo  > /$Organization/$Repository/Common/Dependencies
     fi
     if [ ! -f /$Organization/$Repository/Common/ConnectionStrings.json ]; then
         echo "{"  > /$Organization/$Repository/Common/ConnectionStrings.json
