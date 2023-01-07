@@ -8,7 +8,7 @@ function CreateNonExistentFilesForNext()
     sudo mkdir -p Styles
     sudo chmod -R 777 $PWD
     if [[ $(find Components -type f | wc -l) == 0 ]]; then
-        cp /PaydarCore/Infra/Next/FooterTemplate ./Components/Shared/Footer.js
+        cp /PaydarCore/Infra/Next/FooterTemplate ./Components/Shared/Footer.jsx
     fi 
     if [ ! -f NextConfig.js ]; then
         cp /PaydarCore/Infra/Next/NextConfigTemplate NextConfig.js
@@ -25,11 +25,11 @@ function CreateNonExistentFilesForNext()
     if [ ! -f JsConfig.json ]; then
         cp /PaydarCore/Infra/Next/JsConfigTemplate JsConfig.json
     fi
-    if [ ! -f App/index.js ] && [ ! -f App/page.js ] && [ ! -f "App/[[...path]].js" ]; then
-        cp /PaydarCore/Infra/Next/IndexTemplate App/index.js
+    if [ ! -f App/index.jsx ] && [ ! -f App/page.jsx ] && [ ! -f "App/[[...path]].jsx" ]; then
+        cp /PaydarCore/Infra/Next/IndexTemplate App/index.jsx
     fi
-    if [ ! -f App/_app.js ]; then
-        cp /PaydarCore/Infra/Next/AppTemplate App/_app.js
+    if [ ! -f App/_app.jsx ]; then
+        cp /PaydarCore/Infra/Next/AppTemplate App/_app.jsx
     fi
     sudo chmod -R 777 $PWD
 }
