@@ -1,4 +1,4 @@
-function IsDotNet()
+function IsApi()
 {
     Csproj=$(find . -maxdepth 1 -name "*.csproj" | wc -l)
     if  [[ $Csproj == 1 ]]; then
