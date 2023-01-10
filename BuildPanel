@@ -1,10 +1,10 @@
 function BuildPanel()
 {
-    docker exec $Repository$Project bash -c "Hash | xargs echo > /PaydarCore/React/Hash"
+    docker exec $Repository$Project bash -c "Hash | xargs echo > /PaydarCore/React/hash"
     docker exec $Repository$Project bash -c "cd /$Repository/$Project && npm run build"
 
     docker cp $Repository$Project:/$Repository/$Project/dist/. /Build
-    docker cp $Repository$Project:/PaydarCore/React/Hash  /Build
+    docker cp $Repository$Project:/PaydarCore/React/hash  /Build
 
     rm -rf /Build/Fonts
 }
