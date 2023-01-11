@@ -1,5 +1,6 @@
 function BuildSite()
 {
+    docker cp /PaydarCore/Framework/Business/NoImage.png $Repository$Project:/$Repository/$Project/public/images/nosrc.jpg
     docker exec $Repository$Project bash -c "echo '' > /$Repository/$Project/public/favicon.ico"
     docker exec $Repository$Project bash -c "echo '' > /$Repository/$Project/public/sitemap.xml"
     docker exec $Repository$Project bash -c "echo '' > /$Repository/$Project/public/robots.txt"
