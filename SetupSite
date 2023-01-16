@@ -87,6 +87,7 @@ function BuildDependenciesMappings()
             if [ -d /PaydarCore/$Dependency/Next/App ]; then
                 while read foundDirectory;
                 do
+                    if [[ $foundDirectory == "" ]]; then continue; fi
                     pageDirectory=$(basename $foundDirectory)
                     if [ ! -d /$Organization/$Repository/$Project/App/$pageDirectory ] || [[ $(find /$Organization/$Repository/$Project/App/$pageDirectory -mindepth 1 | wc -l ) == 0 ]]; then
                         export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*App*$pageDirectory:*$Repository*$Project*app*$pageDirectory"
@@ -97,6 +98,7 @@ function BuildDependenciesMappings()
             if [ -d /PaydarCore/$Dependency/Next/Pages ]; then
                 while read foundDirectory;
                 do
+                    if [[ $foundDirectory == "" ]]; then continue; fi
                     pageDirectory=$(basename $foundDirectory)
                     if [ ! -d /$Organization/$Repository/$Project/App/$pageDirectory ] || [[ $(find /$Organization/$Repository/$Project/App/$pageDirectory -mindepth 1 | wc -l ) == 0 ]]; then
                         export volumes="$volumes\n      - *PaydarCore*$Dependency*Next*Pages*$pageDirectory:*$Repository*$Project*pages*$pageDirectory"
