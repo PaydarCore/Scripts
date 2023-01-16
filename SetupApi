@@ -50,13 +50,13 @@ function CopyVSCodeFiles()
 function BuildConfigMappings()
 {
     if [ -f /$Organization/$Repository/Common/ConnectionStrings.json ]; then
-        export volumes="$volumes\n            - *$Organization*Repository*Common*ConnectionStrings.json:*Api*ConnectionStrings.json"
+        export volumes="$volumes\n            - *$Organization*$Repository*Common*ConnectionStrings.json:*$Repository*$Project*ConnectionStrings.json"
     fi
     if [ -f /$Organization/$Repository/Common/Settings.json ]; then
-        export volumes="$volumes\n            - *$Organization*Repository*Common*Settings.json:*Api*Settings.json"
+        export volumes="$volumes\n            - *$Organization*$Repository*Common*Settings.json:*$Repository*$Project*Settings.json"
     fi
-    if [ -f /$Organization/$Repository/$Repository/SettingsOverride.json ]; then
-        export volumes="$volumes\n            - *$Organization*Repository*$Repository*SettingsOverride.json:*Api*SettingsOverride.json"
+    if [ -f /$Organization/$Repository/$Project/SettingsOverride.json ]; then
+        export volumes="$volumes\n            - *$Organization*$Repository*$Project*SettingsOverride.json:*$Repository*$Project*SettingsOverride.json"
     fi
 }
 
