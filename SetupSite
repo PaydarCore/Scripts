@@ -27,10 +27,10 @@ function CreateNonExistentFilesForNext()
     fi
     if [[ $Next13 ]]; then
         if [ ! -f App/page.jsx ] && [ ! -d "App/[[...path]]" ]; then
-            cp /PaydarCore/Infra/Next/PageTemplate App/page.jsx
+            cp /PaydarCore/Infra/Next/PageTemplate.jsx App/page.jsx
         fi
         if [ ! -f App/layout.jsx ]; then
-            cp /PaydarCore/Infra/Next/LayoutTemplate App/layout.jsx
+            cp /PaydarCore/Infra/Next/LayoutTemplate.jsx App/layout.jsx
         fi    
     else
         if [ ! -f App/index.jsx ] && [ ! -f "App/[[...path]].jsx" ]; then
@@ -125,6 +125,8 @@ function BuildDependenciesMappings()
 function SetupSite() 
 {
     Info "Seting up site"
+    export Next13=$(grep "app:\s*true" NextConfig.js)
+
     # LinkGitIgnore $PWD
     # CreateGitHubAction Next
     # DetermineTailwindConfigPath
@@ -140,7 +142,6 @@ function SetupSite()
     fi
     # echo -e $volumes
 
-    export Next13=$(grep "app:\s*true" NextConfig.js)
 
     envsubst < /PaydarCore/Docker/Composes/Site > $ComposePath
 
