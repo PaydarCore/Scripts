@@ -98,6 +98,12 @@ function SetupSite()
     CreateNonExistentFilesForNext
     export volumes=""
     BuildDependenciesMappings
+
+    if [[ $Next13 ]]; then
+        export AppMappingTarget="app";
+    else
+        export AppMappingTarget="pages";
+    fi
     # echo -e $volumes
 
     export Next13=$(grep "app:\s*true" NextConfig.js)
