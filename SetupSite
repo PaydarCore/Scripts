@@ -43,6 +43,39 @@ function CreateNonExistentFilesForNext()
     sudo chmod -R 777 $PWD
 }
 
+function BuildBaseMappings()
+{
+    if [[ $Next13 ]]; then
+      export volumes="$volumes\n      - *PaydarCore*NextApp*Base:*$Repository*$Project*Base"
+      export volumes="$volumes\n      - *PaydarCore*NextApp*Components:*$Repository*$Project*BaseComponents"
+      export volumes="$volumes\n      - *PaydarCore*NextApp*Hooks:*$Repository*$Project*BaseHooks"
+      export volumes="$volumes\n      - *PaydarCore*NextApp*Fonts:*$Repository*$Project*public*Fonts"
+      export volumes="$volumes\n      - *PaydarCore*NextApp*Build:*$Repository*$Project*Build"
+      export volumes="$volumes\n      - *PaydarCore*NextApp*.eslintrc.json:*$Repository*$Project*.eslintrc.json"
+      export volumes="$volumes\n      - *PaydarCore*NextApp*postcss.config.js:*$Repository*$Project*postcss.config.js"
+      export volumes="$volumes\n      - *PaydarCore*NextApp*tailwind.js:*$Repository*$Project*tailwind.js"
+      export volumes="$volumes\n      - *PaydarCore*NextApp*next.js:*$Repository*$Project*next.js"
+      export volumes="$volumes\n      - *PaydarCore*NextApp*middleware.js:*$Repository*$Project*middleware.js"
+      export volumes="$volumes\n      - *PaydarCore*NextApp*Api:*$Repository*$Project*pages*api"
+      export volumes="$volumes\n      - *PaydarCore*NextApp*Pages*_error.jsx:*$Repository*$Project*pages*_error.jsx"
+      export volumes="$volumes\n      - *PaydarCore*NextApp*Styles*style.css:*$Repository*$Project*styles*style.css"
+    else
+      export volumes="$volumes\n      - *PaydarCore*Next*Base:*$Repository*$Project*Base"
+      export volumes="$volumes\n      - *PaydarCore*Next*Components:*$Repository*$Project*BaseComponents"
+      export volumes="$volumes\n      - *PaydarCore*Next*Hooks:*$Repository*$Project*BaseHooks"
+      export volumes="$volumes\n      - *PaydarCore*Next*Fonts:*$Repository*$Project*public*Fonts"
+      export volumes="$volumes\n      - *PaydarCore*Next*Build:*$Repository*$Project*Build"
+      export volumes="$volumes\n      - *PaydarCore*Next*.eslintrc.json:*$Repository*$Project*.eslintrc.json"
+      export volumes="$volumes\n      - *PaydarCore*Next*postcss.config.js:*$Repository*$Project*postcss.config.js"
+      export volumes="$volumes\n      - *PaydarCore*Next*tailwind.js:*$Repository*$Project*tailwind.js"
+      export volumes="$volumes\n      - *PaydarCore*Next*next.js:*$Repository*$Project*next.js"
+      export volumes="$volumes\n      - *PaydarCore*Next*middleware.js:*$Repository*$Project*middleware.js"
+      export volumes="$volumes\n      - *PaydarCore*Next*Api:*$Repository*$Project*pages*api"
+      export volumes="$volumes\n      - *PaydarCore*Next*Pages*_error.jsx:*$Repository*$Project*pages*_error.jsx"
+      export volumes="$volumes\n      - *PaydarCore*Next*Styles*style.css:*$Repository*$Project*styles*style.css"
+    fi
+}
+
 function BuildDependenciesMappings()
 {
     if [ ! -f /$Organization/$Repository/Common/Dependencies ]; then
@@ -97,6 +130,7 @@ function SetupSite()
     # DetermineTailwindConfigPath
     CreateNonExistentFilesForNext
     export volumes=""
+    BuildBaseMappings
     BuildDependenciesMappings
 
     if [[ $Next13 ]]; then
