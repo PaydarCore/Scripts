@@ -25,11 +25,20 @@ function CreateNonExistentFilesForNext()
     if [ ! -f JsConfig.json ]; then
         cp /PaydarCore/Infra/Next/JsConfigTemplate JsConfig.json
     fi
-    if [ ! -f App/index.jsx ] && [ ! -f App/page.jsx ] && [ ! -f "App/[[...path]].jsx" ]; then
-        cp /PaydarCore/Infra/Next/IndexTemplate App/index.jsx
-    fi
-    if [ ! -f App/_app.jsx ]; then
-        cp /PaydarCore/Infra/Next/AppTemplate App/_app.jsx
+    if [[ $Next13 ]]; then
+        if [ ! -f App/page.jsx ] && [ ! -d "App/[[...path]]" ]; then
+            cp /PaydarCore/Infra/Next/PageTemplate App/page.jsx
+        fi
+        if [ ! -f App/layout.jsx ]; then
+            cp /PaydarCore/Infra/Next/LayoutTemplate App/layout.jsx
+        fi    
+    else
+        if [ ! -f App/index.jsx ] && [ ! -f "App/[[...path]].jsx" ]; then
+            cp /PaydarCore/Infra/Next/IndexTemplate App/index.jsx
+        fi
+        if [ ! -f App/_app.jsx ]; then
+            cp /PaydarCore/Infra/Next/AppTemplate App/_app.jsx
+        fi
     fi
     sudo chmod -R 777 $PWD
 }
