@@ -1,6 +1,6 @@
 function BuildApi()
 {
-    docker exec $Repository$Project bash -c "cd /$Repository/$Project && dotnet publish --configuration Release --framework net7.0 --runtime linux-x64 --output /Build --no-self-contained --verbosity quiet --nologo -nowarn:MSB3073,MSB4011,NETSDK1086"
+    docker exec $Repository$Project bash -c "cd /$Repository/$Project && dotnet publish --runtime linux-x64 -o /Build "
 
     sudo docker cp $Repository$Project:/Build /
 
