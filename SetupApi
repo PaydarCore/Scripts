@@ -35,16 +35,28 @@ function GenerateModuleUsings()
     cat /Temp/ModuleUsings > $ModuleUsingsPath
 }
 
-function CopyVSCodeFiles() 
+function LinkDevContainer() 
 {
-    if [ -d "/$Organization/$Repository/$Project/.vscode" ]; then
-        sudo rm -rf "/$Organization/$Repository/$Project/.vscode"
+    return
+    if [ -d /Temp/$Organization/$Repository/$Project/.devcontainer ]; then
+        sudo rm -rf /Temp/$Organization/$Repository/$Project/.devcontainer
     fi
-    sudo mkdir /$Organization/$Repository/$Project/.vscode
-    sudo chmod -R 777 /$Organization/$Repository/$Project/.vscode
 
-    envsubst < /PaydarCore/Infra/DotNet/Dev/Launch > /$Organization/$Repository/$Project/.vscode/launch.json
-    envsubst < /PaydarCore/Infra/DotNet/Dev/Tasks > /$Organization/$Repository/$Project/.vscode/tasks.json
+    sudo mkdir /Temp/$Organization/$Repository/$Project/.devcontainer
+    sudo chmod -R 777 /Temp/$Organization/$Repository/$Project/.devcontainer
+    envsubst < /PaydarCore/Infra/DotNet/Dev/DevContainer > /Temp/$Organization/$Repository/$Project/.devcontainer/devcontainer.json
+}
+
+function LinkVSCodeFilesForApi() 
+{
+    if [ -d /Temp/$Organization/$Repository/$Project/.vscode ]; then
+        sudo rm -rf /Temp/$Organization/$Repository/$Project/.vscode
+    fi
+    sudo mkdir /Temp/$Organization/$Repository/$Project/.vscode
+    sudo chmod -R 777 /Temp/$Organization/$Repository/$Project/.vscode
+
+    envsubst < /PaydarCore/Infra/DotNet/Dev/Launch > /Temp/$Organization/$Repository/$Project/.vscode/launch.json
+    envsubst < /PaydarCore/Infra/DotNet/Dev/Tasks > /Temp/$Organization/$Repository/$Project/.vscode/tasks.json
 }
 
 function BuildConfigMappings()
@@ -114,8 +126,8 @@ function SetupApi()
     Divide
     CreateNonExistentFilesForApi
     GenerateModuleUsings
-    CopyVSCodeFiles
-
+    LinkDevContainer
+    LinkVSCodeFilesForApi
     export volumes=""
     BuildConfigMappings volumes
     BuildDependenciesMappingsForApi volumes
