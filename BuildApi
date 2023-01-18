@@ -1,6 +1,6 @@
 function BuildApi()
 {
-    docker exec $Repository$Project bash -c "cd /$Repository/$Project && dotnet publish --runtime linux-x64 -o /Build "
+    docker exec $Repository$Project bash -c "cd /$Repository/$Project && dotnet publish -o /Build "
 
     sudo docker cp $Repository$Project:/Build /
 
