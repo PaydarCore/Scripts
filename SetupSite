@@ -68,7 +68,7 @@ function BuildBaseMappings()
       export volumes="$volumes\n      - *PaydarCore*Next*middleware.js:*$Repository*$Project*middleware.js"
       export volumes="$volumes\n      - *PaydarCore*Next*Api:*$Repository*$Project*pages*api"
       export volumes="$volumes\n      - *PaydarCore*Next*Pages*_error.jsx:*$Repository*$Project*pages*_error.jsx"
-      export volumes="$volumes\n      - *PaydarCore*Next*Styles*style.css:*$Repository*$Project*styles*style.css"
+      export volumes="$volumes\n      - *PaydarCore*Next*Styles*style.css:*$Repository*$Project*Styles*style.css"
     fi
 }
 
