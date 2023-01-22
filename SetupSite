@@ -49,7 +49,7 @@ function BuildBaseMappings()
       export volumes="$volumes\n      - *PaydarCore*NextApp*Base:*$Repository*$Project*Base"
       export volumes="$volumes\n      - *PaydarCore*NextApp*Components:*$Repository*$Project*BaseComponents"
       export volumes="$volumes\n      - *PaydarCore*NextApp*Hooks:*$Repository*$Project*BaseHooks"
-      export volumes="$volumes\n      - *PaydarCore*NextApp*Fonts:*$Repository*$Project*public*Fonts"
+      export volumes="$volumes\n      - *PaydarCore*Fonts:*$Repository*$Project*public*Fonts"
       export volumes="$volumes\n      - *PaydarCore*NextApp*Build:*$Repository*$Project*Build"
       export volumes="$volumes\n      - *PaydarCore*NextApp*postcss.config.js:*$Repository*$Project*postcss.config.js"
       export volumes="$volumes\n      - *PaydarCore*NextApp*TailwindBase.js:*$Repository*$Project*TailwindBase.js"
