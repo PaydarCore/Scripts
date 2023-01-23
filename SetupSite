@@ -55,6 +55,8 @@ function BuildBaseMappings()
       export volumes="$volumes\n      - *PaydarCore*NextApp*TailwindBase.js:*$Repository*$Project*TailwindBase.js"
       export volumes="$volumes\n      - *PaydarCore*NextApp*next.js:*$Repository*$Project*next.js"
       export volumes="$volumes\n      - *PaydarCore*NextApp*Api:*$Repository*$Project*pages*api"
+      export volumes="$volumes\n      - *PaydarCore*NextApp*Scripts*Scroll.js:*$Repository*$Project*public*scripts*scroll.js"
+      export volumes="$volumes\n      - *PaydarCore*NextApp*Scripts*Event.js:*$Repository*$Project*public*scripts*event.js"
     else
       export volumes="$volumes\n      - *PaydarCore*Next*Base:*$Repository*$Project*Base"
       export volumes="$volumes\n      - *PaydarCore*Next*Components:*$Repository*$Project*BaseComponents"
