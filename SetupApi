@@ -14,7 +14,9 @@ function CreateNonExistentFilesForApi()
         echo "}"  >> /$Organization/$Repository/Common/ConnectionStrings.json
     fi
     if [ ! -f /$Organization/$Repository/Common/Settings.json ]; then
-        echo "{ }"  > /$Organization/$Repository/Common/Settings.json
+        echo "{"  > /$Organization/$Repository/Common/Settings.json
+        echo '  "JwtConfigKey": "change_this_with_a_random_key"'  > /$Organization/$Repository/Common/Settings.json
+        echo "}"  > /$Organization/$Repository/Common/Settings.json
     fi
     if [ ! -f /$Organization/$Repository/Common/ModuleUsings.cs ]; then
         touch /$Organization/$Repository/Common/ModuleUsings.cs
