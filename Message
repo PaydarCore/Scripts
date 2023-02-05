@@ -16,6 +16,13 @@ if [[ -t 1 ]]; then
     reset=`tput sgr0`
 fi
 
+Check="\xE2\x9C\x94"
+
+function Check()
+{
+    echo -e "${green}$*;$Check${reset}" | column -t -s ';'
+}
+
 function Success()
 {
     echo "${green}$*${reset}"
