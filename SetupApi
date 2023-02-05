@@ -141,6 +141,4 @@ function SetupApi()
 
     SetupDatabase
     CreateApiContainer
-
-    # CreateStorageContainer
 }
