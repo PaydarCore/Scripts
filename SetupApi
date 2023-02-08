@@ -40,7 +40,6 @@ function GenerateModuleUsings()
 
 function LinkDevContainer() 
 {
-    return
     if [ -d /Temp/$Organization/$Repository/$Project/.devcontainer ]; then
         sudo rm -rf /Temp/$Organization/$Repository/$Project/.devcontainer
     fi
@@ -48,6 +47,10 @@ function LinkDevContainer()
     sudo mkdir /Temp/$Organization/$Repository/$Project/.devcontainer
     sudo chmod -R 777 /Temp/$Organization/$Repository/$Project/.devcontainer
     envsubst < /PaydarCore/Infra/DotNet/Dev/DevContainer > /Temp/$Organization/$Repository/$Project/.devcontainer/devcontainer.json
+
+    if [ $Repository != "Storage" ]; then
+        envsubst < /PaydarCore/Infra/DotNet/Dev/DevContainer > /home/$USER/.config/Code/User/globalStorage/ms-vscode-remote.remote-containers/imageConfigs/paydar%2fapi%3alatest.json
+    fi
 }
 
 function LinkVSCodeFilesForApi() 
