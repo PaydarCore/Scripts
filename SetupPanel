@@ -44,6 +44,21 @@ function BuildDependenciesMappingsForReact()
     done <<< "$({ echo Entities; echo Globalization; echo Accounts; cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
 }
 
+function BuildMappings()
+{
+    while read Item; do
+        ReplacedItem=${Item#./}
+        if [[ $ReplacedItem == "" ]]; then
+            continue;
+        fi
+        if [ $ReplacedItem == Dependencies ]; then
+            Error "Remove Dependencies link from panel source code"
+            exit
+        fi
+        export volumes="$volumes\n      - *$Organization*$Repository*$Project*$ReplacedItem:*$Repository*$Project*src*$ReplacedItem"
+    done <<< "$(find . -mindepth 1 -maxdepth 1 -type l -or -type d -not -name .github -not -name .git | sort)"
+}
+
 function SetupPanel()
 {
     Info "React setup"
@@ -51,6 +66,7 @@ function SetupPanel()
 
     export volumes=""
     BuildDependenciesMappingsForReact
+    BuildMappings
     # echo -e $volumes
 
     CreateNonExistentFilesForReact
