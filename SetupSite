@@ -122,6 +122,9 @@ function BuildDependenciesMappings()
         if [ -f /PaydarCore/$Dependency/$DirectoryName/Exports.jsx ]; then
             export volumes="$volumes\n      - *PaydarCore*$Dependency*$DirectoryName*Exports.jsx:*$Repository*$Project*Modules*$Dependency*Exports.jsx"
         fi
+        if [ -d /PaydarCore/$Dependency/$DirectoryName/Styles ]; then
+            export volumes="$volumes\n      - *PaydarCore*$Dependency*$DirectoryName*Styles:*$Repository*$Project*Styles*$Dependency"
+        fi
     done <<< "$({ cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
 }
 
