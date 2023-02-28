@@ -2,7 +2,7 @@ function BuildApi()
 {
     docker exec $Repository$Project bash -c "cd /$Repository/$Project && dotnet publish -o /Build "
 
-    sudo docker cp $Repository$Project:/Build /
+    sudo docker cp $Repository$Project:/Build / --quiet
 
     sudo rm -rf /Build/ConnectionStrings.json
     sudo rm -rf /Build/Settings.json

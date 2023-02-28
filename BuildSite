@@ -9,12 +9,12 @@ function BuildSite()
     docker exec $Repository$Project bash -c "Hash | xargs echo > /next/hash"
     docker exec $Repository$Project bash -c "cd /$Repository/$Project && npm run build"
 
-    docker cp $Repository$Project:/$Repository/$Project/next.config.js /Build
-    docker cp $Repository$Project:/$Repository/$Project/next.js /Build
-    docker cp $Repository$Project:/$Repository/$Project/public  /Build
-    docker cp $Repository$Project:/$Repository/$Project/.next  /Build
-    docker cp $Repository$Project:/next/package.json  /Build
-    docker cp $Repository$Project:/next/hash  /Build
+    docker cp $Repository$Project:/$Repository/$Project/next.config.js /Build --quiet
+    docker cp $Repository$Project:/$Repository/$Project/next.js /Build --quiet
+    docker cp $Repository$Project:/$Repository/$Project/public  /Build --quiet
+    docker cp $Repository$Project:/$Repository/$Project/.next  /Build --quiet
+    docker cp $Repository$Project:/next/package.json  /Build --quiet
+    docker cp $Repository$Project:/next/hash  /Build --quiet
 
     docker exec $Repository$Project bash -c "rm -rf /$Repository/$Project/public/favicon.ico"
     docker exec $Repository$Project bash -c "rm -rf /$Repository/$Project/public/sitemap.xml"
