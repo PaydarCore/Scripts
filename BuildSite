@@ -1,6 +1,6 @@
 function BuildSite()
 {
-    docker cp /PaydarCore/Framework/Business/NoImage.png $Repository$Project:/$Repository/$Project/public/images/nosrc.jpg
+    docker cp /PaydarCore/Framework/Business/NoImage.png $Repository$Project:/$Repository/$Project/public/images/nosrc.jpg --quiet
     docker exec $Repository$Project bash -c "echo '' > /$Repository/$Project/public/favicon.ico"
     docker exec $Repository$Project bash -c "echo '' > /$Repository/$Project/public/sitemap.xml"
     docker exec $Repository$Project bash -c "echo '' > /$Repository/$Project/public/robots.txt"
@@ -11,10 +11,10 @@ function BuildSite()
 
     docker cp $Repository$Project:/$Repository/$Project/next.config.js /Build --quiet
     docker cp $Repository$Project:/$Repository/$Project/next.js /Build --quiet
-    docker cp $Repository$Project:/$Repository/$Project/public  /Build --quiet
-    docker cp $Repository$Project:/$Repository/$Project/.next  /Build --quiet
-    docker cp $Repository$Project:/next/package.json  /Build --quiet
-    docker cp $Repository$Project:/next/hash  /Build --quiet
+    docker cp $Repository$Project:/$Repository/$Project/public /Build --quiet
+    docker cp $Repository$Project:/$Repository/$Project/.next /Build --quiet
+    docker cp $Repository$Project:/next/package.json /Build --quiet
+    docker cp $Repository$Project:/next/hash /Build --quiet
 
     docker exec $Repository$Project bash -c "rm -rf /$Repository/$Project/public/favicon.ico"
     docker exec $Repository$Project bash -c "rm -rf /$Repository/$Project/public/sitemap.xml"
