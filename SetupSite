@@ -60,7 +60,7 @@ function BuildBaseMappings()
       export volumes="$volumes\n      - *PaydarCore*Next*Base:*$Repository*$Project*Base"
       export volumes="$volumes\n      - *PaydarCore*Next*Components:*$Repository*$Project*BaseComponents"
       export volumes="$volumes\n      - *PaydarCore*Next*Hooks:*$Repository*$Project*BaseHooks"
-      export volumes="$volumes\n      - *PaydarCore*Next*Fonts:*$Repository*$Project*public*Fonts"
+      export volumes="$volumes\n      - *PaydarCore*Fonts:*$Repository*$Project*public*Fonts"
       export volumes="$volumes\n      - *PaydarCore*Next*Build:*$Repository*$Project*Build"
       export volumes="$volumes\n      - *PaydarCore*Next*.eslintrc.json:*$Repository*$Project*.eslintrc.json"
       export volumes="$volumes\n      - *PaydarCore*Next*postcss.config.js:*$Repository*$Project*postcss.config.js"
