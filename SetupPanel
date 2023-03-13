@@ -25,21 +25,25 @@ function BuildDependenciesMappingsForReact()
     fi
     while read Dependency; do
         Repo=${Dependency}
+        ExtraPath=""
+        ExtraPathWithStar=""
         if [ -d /$Organization/$Repository/$Dependency ]; then
             Org=$Organization
+            ExtraPath="/$Repository"
+            ExtraPathWithStar="*$Repository"
         else
             Org=PaydarCore
         fi
-        if [ ! -d /$Org/$Repo/Admin ]; then
-            Warning "Wrong dependency: $Dependency. No /$Org/$Repo/Admin"
+        if [ ! -d /$Org${ExtraPath}/$Repo/Admin ]; then
+            Warning "Wrong dependency: $Dependency. No /$Org${ExtraPath}/$Repo/Admin"
             continue;
         fi
         if [[ $Repo == Common ]]; then
             continue;
         fi
-        export volumes="$volumes\n      - *$Org*$Repo:*$Org*$Repo"
+        export volumes="$volumes\n      - *$Org${ExtraPathWithStar}*$Repo:*$Org${ExtraPathWithStar}*$Repo"
         if [[ $(basename $PWD) == *Admin* ]]; then
-            export volumes="$volumes\n      - *$Org*$Repo*Admin:*$Repository*$Project*src*$Repo"
+            export volumes="$volumes\n      - *$Org${ExtraPathWithStar}*$Repo*Admin:*$Repository*$Project*src*$Repo"
         fi
     done <<< "$({ echo Entities; echo Globalization; echo Accounts; cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
 }
