@@ -85,27 +85,31 @@ function BuildDependenciesMappingsForApi()
     fi
     while read Dependency; do
         Repo=${Dependency}Api
-        if [ -d /$Organization/$Repository/$Dependency ]; then
+        ExtraPath=""
+        ExtraPathWithStar=""
+        if [ -d /$Organization/$Repository/$Repo ]; then
             Org=$Organization
+            ExtraPath="/$Repository"
+            ExtraPathWithStar="*$Repository"
         else
             Org=PaydarCore
         fi
-        if [ ! -f /$Org/$Repo/Database.json ]; then
-            Warning "Wrong dependency: $Dependency. No /$Org/$Repo/Database.json"
+        if [ ! -f /$Org${ExtraPath}/$Repo/Database.json ]; then
+            Warning "Wrong dependency: $Dependency. No /$Org${ExtraPath}/$Repo/Database.json"
             continue;
         fi
         if [[ $Repo == AccountsApi ]] || [[ $Repo == LanguagesApi ]] || [[ $Repo == EntitiesApi ]]; then
             continue;
         fi
-        export volumes="$volumes\n            - *$Org*$Repo:*$Org*$Repo"
-        export volumes="$volumes\n            - *$Org*$Repo*Models:*$Repository*$Project*$Repo*Models"
-        export volumes="$volumes\n            - *$Org*$Repo*DataAccess:*$Repository*$Project*$Repo*DataAccess"
-        export volumes="$volumes\n            - *$Org*$Repo*Business:*$Repository*$Project*$Repo*Business"
+        export volumes="$volumes\n            - *$Org${ExtraPathWithStar}*$Repo:*$Org${ExtraPathWithStar}*$Repo"
+        export volumes="$volumes\n            - *$Org${ExtraPathWithStar}*$Repo*Models:*$Repository*$Project*$Repo*Models"
+        export volumes="$volumes\n            - *$Org${ExtraPathWithStar}*$Repo*DataAccess:*$Repository*$Project*$Repo*DataAccess"
+        export volumes="$volumes\n            - *$Org${ExtraPathWithStar}*$Repo*Business:*$Repository*$Project*$Repo*Business"
         if [[ $(basename $PWD) == *Admin* ]]; then
-            export volumes="$volumes\n            - *$Org*$Repo*Api*Admin:*$Repository*$Project*$Repo*Api"
+            export volumes="$volumes\n            - *$Org${ExtraPathWithStar}*$Repo*Api*Admin:*$Repository*$Project*$Repo*Api"
         fi
         if [[ $(basename $PWD) == *Site* ]]; then
-            export volumes="$volumes\n            - *$Org*$Repo*Api*Site:*$Repository*$Project*$Repo*Api"
+            export volumes="$volumes\n            - *$Org${ExtraPathWithStar}*$Repo*Api*Site:*$Repository*$Project*$Repo*Api"
         fi
     done <<< "$({ cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
 }
