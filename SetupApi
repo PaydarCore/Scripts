@@ -119,7 +119,7 @@ function BuildLocalizationMappings()
     while read Item; do
         ReplacedItem="${Item//\//*}"
         export volumes="$volumes\n            - $ReplacedItem:$ReplacedItem"
-    done <<< "$(find /PaydarCore -type d -name 'Localization' 2>/dev/null | sort)"
+    done <<< "$(find /PaydarCore /$Organization/$Repository -type d -name 'Localization' 2>/dev/null | sort)"
 }
 
 function CreateApiContainer()
