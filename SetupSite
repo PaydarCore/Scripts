@@ -78,18 +78,30 @@ function BuildDependenciesMappings()
     if [ ! -f /$Organization/$Repository/Common/Dependencies ]; then
         return;
     fi
-    while read Dependency; 
-    do
+    while read Dependency;
+    do  
+        Repo=${Dependency}
+        ExtraPath=""
+        ExtraPathWithStar=""
+
+        if [ -d /$Organization/$Repository/$Dependency ]; then
+            Org=$Organization
+            ExtraPath="/$Repository"
+            ExtraPathWithStar="*$Repository"
+        else
+            Org=PaydarCore
+        fi
+
         if [[ $Next13 ]]; then
-            if [ -d /PaydarCore/$Dependency/NextApp/App ]; then
+            if [ -d /$Org${ExtraPath}/$Repo/NextApp/App ]; then
                 while read foundDirectory;
                 do
                     if [[ $foundDirectory == "" ]]; then continue; fi
                     pageDirectory=$(basename $foundDirectory)
                     if [ ! -d /$Organization/$Repository/$Project/App/$pageDirectory ] || [[ $(find /$Organization/$Repository/$Project/App/$pageDirectory -mindepth 1 | wc -l ) == 0 ]]; then
-                        export volumes="$volumes\n      - *PaydarCore*$Dependency*NextApp*App*$pageDirectory:*$Repository*$Project*app*$pageDirectory"
+                        export volumes="$volumes\n      - *$Org${ExtraPathWithStar}*$Repo*NextApp*App*$pageDirectory:*$Repository*$Project*app*$pageDirectory"
                     fi
-                done <<< "$(find /PaydarCore/$Dependency/NextApp/App -mindepth 1 -maxdepth 1 -type d)"
+                done <<< "$(find /$Org${ExtraPath}/$Repo/NextApp/App -mindepth 1 -maxdepth 1 -type d)"
             fi
         else
             if [ -d /PaydarCore/$Dependency/Next/Pages ]; then
@@ -107,23 +119,23 @@ function BuildDependenciesMappings()
         if [[ $Next13 ]]; then
             export DirectoryName=NextApp
         fi
-        if [ -d /PaydarCore/$Dependency/$DirectoryName/Components ]; then
-            export volumes="$volumes\n      - *PaydarCore*$Dependency*$DirectoryName*Components:*$Repository*$Project*Modules*$Dependency*Components"
+        if [ -d /$Org${ExtraPath}/$Repo/$DirectoryName/Components ]; then
+            export volumes="$volumes\n      - *$Org${ExtraPathWithStar}*$Repo*$DirectoryName*Components:*$Repository*$Project*Modules*$Dependency*Components"
         fi
-        if [ -d /PaydarCore/$Dependency/$DirectoryName/Contexts ]; then
-            export volumes="$volumes\n      - *PaydarCore*$Dependency*$DirectoryName*Contexts:*$Repository*$Project*Modules*$Dependency*Contexts"
+        if [ -d /$Org${ExtraPath}/$Repo/$DirectoryName/Contexts ]; then
+            export volumes="$volumes\n      - *$Org${ExtraPathWithStar}*$Repo*$DirectoryName*Contexts:*$Repository*$Project*Modules*$Dependency*Contexts"
         fi
-        if [ -d /PaydarCore/$Dependency/$DirectoryName/Hooks ]; then
-            export volumes="$volumes\n      - *PaydarCore*$Dependency*$DirectoryName*Hooks:*$Repository*$Project*Modules*$Dependency*Hooks"
+        if [ -d /$Org${ExtraPath}/$Repo/$DirectoryName/Hooks ]; then
+            export volumes="$volumes\n      - *$Org${ExtraPathWithStar}*$Repo*$DirectoryName*Hooks:*$Repository*$Project*Modules*$Dependency*Hooks"
         fi
-        if [ -d /PaydarCore/$Dependency/$DirectoryName/Functions ]; then
-            export volumes="$volumes\n      - *PaydarCore*$Dependency*$DirectoryName*Functions:*$Repository*$Project*Modules*$Dependency*Functions"
+        if [ -d /$Org${ExtraPath}/$Repo/$DirectoryName/Functions ]; then
+            export volumes="$volumes\n      - *$Org${ExtraPathWithStar}*$Repo*$DirectoryName*Functions:*$Repository*$Project*Modules*$Dependency*Functions"
         fi
-        if [ -f /PaydarCore/$Dependency/$DirectoryName/Exports.jsx ]; then
-            export volumes="$volumes\n      - *PaydarCore*$Dependency*$DirectoryName*Exports.jsx:*$Repository*$Project*Modules*$Dependency*Exports.jsx"
+        if [ -f /$Org${ExtraPath}/$Repo/$DirectoryName/Exports.jsx ]; then
+            export volumes="$volumes\n      - *$Org${ExtraPathWithStar}*$Repo*$DirectoryName*Exports.jsx:*$Repository*$Project*Modules*$Dependency*Exports.jsx"
         fi
-        if [ -d /PaydarCore/$Dependency/$DirectoryName/Styles ]; then
-            export volumes="$volumes\n      - *PaydarCore*$Dependency*$DirectoryName*Styles:*$Repository*$Project*Styles*$Dependency"
+        if [ -d /$Org${ExtraPath}/$Repo/$DirectoryName/Styles ]; then
+            export volumes="$volumes\n      - *$Org${ExtraPathWithStar}*$Repo*$DirectoryName*Styles:*$Repository*$Project*Styles*$Dependency"
         fi
     done <<< "$({ cat "/$Organization/$Repository/Common/Dependencies"; echo; })"
 }
