@@ -7,6 +7,7 @@ function BuildSite()
     docker exec $Repository$Project bash -c "echo '' > /$Repository/$Project/public/colors.css"
 
     docker exec $Repository$Project bash -c "Hash | xargs echo > /next/hash"
+    docker exec $Repository$Project bash -c "cd /$Repository/$Project && cat .env | cut -d'=' -f2 | xargs curl"
     docker exec $Repository$Project bash -c "cd /$Repository/$Project && npm run build"
 
     docker cp $Repository$Project:/$Repository/$Project/next.config.js /Build --quiet
